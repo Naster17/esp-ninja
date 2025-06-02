@@ -1,10 +1,9 @@
 #include <WiFi.h>
+#include <drivers/screen.h>
+#include <drivers/wlan.h>
 #include <esp_wifi.h>
-#include "kernel/usr/gui/gui.h"
-#include "kernel/usr/apps/apps.h"
-#include "kernel/dev/led/led_hal.h"
-#include "kernel/dev/screen/screen.h"
-#include "kernel/dev/wifi/wifi_hal.h"
+#include <kernel/package.h>
+#include <lib/ui.h>
 
 void selected_wifi(int i);
 String get_encription(int i);
@@ -103,16 +102,15 @@ void selected_wifi(int i)
 
     GridView *grid3 = grid_poly_init(grid2, 1, 1);
 
-    wifi_ap_record_t *it = (wifi_ap_record_t *)WiFi.getScanInfoByIndex(i);
+    wifi_ap_record_t *it = (wifi_ap_record_t *) WiFi.getScanInfoByIndex(i);
     String output = "SSID:  " + (WiFi.SSID(i) != "" ? WiFi.SSID(i) : "HIDDEN") + "\n\n" +
-                    "BSSID: " + WiFi.BSSIDstr(i) + "\n" +
-                    "RSSI:  " + String(WiFi.RSSI(i)) + "dbm\n" +
-                    "WPS:   " + (it->wps ? "ON" : "OFF") + "\n\n" +
+                    "BSSID: " + WiFi.BSSIDstr(i) + "\n" + "RSSI:  " + String(WiFi.RSSI(i)) +
+                    "dbm\n" + "WPS:   " + (it->wps ? "ON" : "OFF") + "\n\n" +
                     "Channel:  " + String(WiFi.channel(i)) + "\n" +
-                    "Security: " + get_encription(i) + "\n" +
-                    "Cipher:   " + get_cipher(i, false) + "/" + get_cipher(i, true) + "\n\n" +
-                    "Mode: " + "802.11" + (it->phy_11b ? "b" : "") + (it->phy_11g ? "g" : "") + (it->phy_11n ? "n" : "") + "\n" +
-                    "Low Rate: " + (it->phy_lr ? "ON" : "OFF") + "\n" +
+                    "Security: " + get_encription(i) + "\n" + "Cipher:   " + get_cipher(i, false) +
+                    "/" + get_cipher(i, true) + "\n\n" + "Mode: " + "802.11" +
+                    (it->phy_11b ? "b" : "") + (it->phy_11g ? "g" : "") + (it->phy_11n ? "n" : "") +
+                    "\n" + "Low Rate: " + (it->phy_lr ? "ON" : "OFF") + "\n" +
                     "FTM Init: " + (it->ftm_initiator ? "YES" : "NO") + "\n" +
                     "FTM Resp: " + (it->ftm_responder ? "YES" : "NO") + "\n\n" +
                     "Antenna:  " + (it->ant == 1 ? "1" : "0") + "\n";
@@ -169,28 +167,17 @@ String get_encription(int i)
     int e = WiFi.encryptionType(i);
     switch (e)
     {
-    case WIFI_AUTH_OPEN:
-        return "OPEN";
-    case WIFI_AUTH_WEP:
-        return "WEP";
-    case WIFI_AUTH_WPA_PSK:
-        return "WPA_PSK";
-    case WIFI_AUTH_WPA2_PSK:
-        return "WPA2_PSK";
-    case WIFI_AUTH_WPA_WPA2_PSK:
-        return "WPA_WPA2_PSK";
-    case WIFI_AUTH_ENTERPRISE:
-        return "ENTERPRISE";
-    case WIFI_AUTH_WPA3_PSK:
-        return "WPA3_PSK";
-    case WIFI_AUTH_WPA2_WPA3_PSK:
-        return "WPA2_WPA3_PSK";
-    case WIFI_AUTH_WAPI_PSK:
-        return "WAPI_PSK";
-    case WIFI_AUTH_WPA3_ENT_192:
-        return "WPA3_ENT_192";
-    default:
-        return "UNKNOWN";
+    case WIFI_AUTH_OPEN: return "OPEN";
+    case WIFI_AUTH_WEP: return "WEP";
+    case WIFI_AUTH_WPA_PSK: return "WPA_PSK";
+    case WIFI_AUTH_WPA2_PSK: return "WPA2_PSK";
+    case WIFI_AUTH_WPA_WPA2_PSK: return "WPA_WPA2_PSK";
+    case WIFI_AUTH_ENTERPRISE: return "ENTERPRISE";
+    case WIFI_AUTH_WPA3_PSK: return "WPA3_PSK";
+    case WIFI_AUTH_WPA2_WPA3_PSK: return "WPA2_WPA3_PSK";
+    case WIFI_AUTH_WAPI_PSK: return "WAPI_PSK";
+    case WIFI_AUTH_WPA3_ENT_192: return "WPA3_ENT_192";
+    default: return "UNKNOWN";
     }
 }
 
@@ -205,32 +192,19 @@ String get_cipher(int i, bool group)
 
     switch (cipher)
     {
-    case WIFI_CIPHER_TYPE_NONE:
-        return "NONE";
-    case WIFI_CIPHER_TYPE_WEP40:
-        return "WEP40";
-    case WIFI_CIPHER_TYPE_WEP104:
-        return "WEP140";
-    case WIFI_CIPHER_TYPE_TKIP:
-        return "TKIP";
-    case WIFI_CIPHER_TYPE_CCMP:
-        return "CCMP";
-    case WIFI_CIPHER_TYPE_TKIP_CCMP:
-        return "TKIP_CCMP";
-    case WIFI_CIPHER_TYPE_AES_CMAC128:
-        return "AES_CMAC128";
-    case WIFI_CIPHER_TYPE_SMS4:
-        return "SMS4";
-    case WIFI_CIPHER_TYPE_GCMP:
-        return "GCMP";
-    case WIFI_CIPHER_TYPE_GCMP256:
-        return "GCMP256";
-    case WIFI_CIPHER_TYPE_AES_GMAC128:
-        return "AES_GMAC128";
-    case WIFI_CIPHER_TYPE_AES_GMAC256:
-        return "AES_GMAC256";
-    default:
-        return "UNKNOWN";
+    case WIFI_CIPHER_TYPE_NONE: return "NONE";
+    case WIFI_CIPHER_TYPE_WEP40: return "WEP40";
+    case WIFI_CIPHER_TYPE_WEP104: return "WEP140";
+    case WIFI_CIPHER_TYPE_TKIP: return "TKIP";
+    case WIFI_CIPHER_TYPE_CCMP: return "CCMP";
+    case WIFI_CIPHER_TYPE_TKIP_CCMP: return "TKIP_CCMP";
+    case WIFI_CIPHER_TYPE_AES_CMAC128: return "AES_CMAC128";
+    case WIFI_CIPHER_TYPE_SMS4: return "SMS4";
+    case WIFI_CIPHER_TYPE_GCMP: return "GCMP";
+    case WIFI_CIPHER_TYPE_GCMP256: return "GCMP256";
+    case WIFI_CIPHER_TYPE_AES_GMAC128: return "AES_GMAC128";
+    case WIFI_CIPHER_TYPE_AES_GMAC256: return "AES_GMAC256";
+    default: return "UNKNOWN";
     }
 }
 

@@ -1,4 +1,6 @@
 #include <Arduino.h>
+
+#include <drivers/screen.h>
 #include <lib/ui.h>
 
 // Thank you Arduino not support __attribute__((constructor))

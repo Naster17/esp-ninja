@@ -1,9 +1,9 @@
 #include <WiFi.h>
-#include <esp_wps.h>
+#include <drivers/screen.h>
 #include <esp_wifi.h>
-#include "kernel/usr/gui/gui.h"
-#include "kernel/usr/apps/apps.h"
-#include "kernel/dev/screen/screen.h"
+#include <esp_wps.h>
+#include <kernel/package.h>
+#include <lib/ui.h>
 
 void WiFiEvent(WiFiEvent_t event, arduino_event_info_t info);
 void wpsStart();
@@ -88,16 +88,14 @@ void WiFiEvent(WiFiEvent_t event, arduino_event_info_t info)
 {
     switch (event)
     {
-    case ARDUINO_EVENT_WIFI_STA_START:
-        break;
+    case ARDUINO_EVENT_WIFI_STA_START: break;
     case ARDUINO_EVENT_WIFI_STA_GOT_IP:
         last_log += "\nCaptured:\n" + String(WiFi.SSID()) + "\n" + String(WiFi.psk()) + "\n";
         wpsStop();
         WiFi.disconnect(true, true);
         WiFi.mode(WIFI_OFF);
         break;
-    case ARDUINO_EVENT_WIFI_STA_DISCONNECTED:
-        break;
+    case ARDUINO_EVENT_WIFI_STA_DISCONNECTED: break;
     case ARDUINO_EVENT_WPS_ER_SUCCESS:
         last_log += "\nCaptured:\n" + String(WiFi.SSID()) + "\n" + String(WiFi.psk()) + "\n";
         wpsStop();
@@ -114,10 +112,8 @@ void WiFiEvent(WiFiEvent_t event, arduino_event_info_t info)
         wpsStop();
         wpsStart();
         break;
-    case ARDUINO_EVENT_WPS_ER_PIN:
-        break;
-    default:
-        break;
+    case ARDUINO_EVENT_WPS_ER_PIN: break;
+    default: break;
     }
 }
 

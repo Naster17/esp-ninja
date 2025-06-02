@@ -1,4 +1,4 @@
-#include "../apps.h"
+#include <kernel/package.h>
 
 void app_add_flashlight();
 void app_add_main();

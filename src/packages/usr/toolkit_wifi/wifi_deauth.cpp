@@ -1,8 +1,8 @@
 #include <WiFi.h>
 #include <esp_wifi.h>
-#include "kernel/usr/gui/gui.h"
-#include "kernel/usr/apps/apps.h"
-#include "kernel/dev/screen/screen.h"
+#include <drivers/screen.h>
+#include <kernel/package.h>
+#include <lib/ui.h>
 
 extern "C" int ieee80211_raw_frame_sanity_check(int32_t arg, int32_t arg2, int32_t arg3)
 {

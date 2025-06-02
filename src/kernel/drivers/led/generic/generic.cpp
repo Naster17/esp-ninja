@@ -1,4 +1,4 @@
-#include "../led_hal.h"
+#include <drivers/led.h>
 
 #ifdef LED_GENERIC
 bool generic_init()

@@ -1,11 +1,11 @@
 #include <WiFi.h>
-#include "kernel/usr/gui/gui.h"
-#include "kernel/usr/apps/apps.h"
-#include "kernel/dev/screen/screen.h"
+#include <drivers/screen.h>
+#include <kernel/package.h>
+#include <lib/ui.h>
 
 void main_select_wifi(void *lp_param)
 {
-    int c = *(int *)lp_param;
+    int c = *(int *) lp_param;
 
     screen.fillScreen(TFT_BLACK);
     status_bar(WiFi.SSID(c) != "" ? WiFi.SSID(c) : WiFi.BSSIDstr(c));
@@ -23,7 +23,8 @@ void main_select_wifi(void *lp_param)
         String msg = handler(grid);
         static unsigned long bar_t = 0;
 
-        if (msg == "EXIT") {
+        if (msg == "EXIT")
+        {
             delay(200);
             break;
         }

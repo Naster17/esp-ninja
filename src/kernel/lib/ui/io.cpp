@@ -1,5 +1,5 @@
-#include "gui.h"
-#include "kernel/dev/screen/screen.h"
+#include <drivers/screen.h>
+#include <lib/ui.h>
 
 int grid_add_output(GridView *grid, String title, uint8_t text_position, uint8_t font_size)
 {
@@ -27,7 +27,8 @@ int grid_add_output(GridView *grid, String title, uint8_t text_position, uint8_t
             if (text_position == TEXT_POSITION_TOP_LEFT)
                 screen.setCursor(cm.xs + 5, cm.ys + (str_count * screen.fontHeight(1)) + 5);
             else if (text_position == TEXT_POSITION_CENTER)
-                screen.setCursor(cm.xs + ((grid->tile_w - screen.textWidth(new_line)) / 2), cm.ys + (str_count * screen.fontHeight(1)) + 5);
+                screen.setCursor(cm.xs + ((grid->tile_w - screen.textWidth(new_line)) / 2),
+                                 cm.ys + (str_count * screen.fontHeight(1)) + 5);
 
             screen.print(new_line);
             line_index = i;
@@ -41,7 +42,8 @@ int grid_add_output(GridView *grid, String title, uint8_t text_position, uint8_t
         if (text_position == TEXT_POSITION_TOP_LEFT)
             screen.setCursor(cm.xs + 5, cm.ys + (str_count * screen.fontHeight(1)) + 5);
         else if (text_position == TEXT_POSITION_CENTER)
-            screen.setCursor(cm.xs + ((grid->tile_w - screen.textWidth(new_line)) / 2), cm.ys + (str_count * screen.fontHeight(1)) + 5);
+            screen.setCursor(cm.xs + ((grid->tile_w - screen.textWidth(new_line)) / 2),
+                             cm.ys + (str_count * screen.fontHeight(1)) + 5);
 
         screen.print(new_line);
     }
@@ -49,7 +51,8 @@ int grid_add_output(GridView *grid, String title, uint8_t text_position, uint8_t
     return _updater(grid, cm, 0, title, TILE_OUTPUT, font_size);
 }
 
-int grid_output_write(GridView *grid, int id, String text, uint8_t text_position, uint8_t font_size, bool append)
+int grid_output_write(GridView *grid, int id, String text, uint8_t text_position, uint8_t font_size,
+                      bool append)
 {
     static String l_text;
     if (append)
@@ -57,7 +60,8 @@ int grid_output_write(GridView *grid, int id, String text, uint8_t text_position
     else
         l_text = text;
 
-    screen.fillRect(grid->pos[id].xs + 2, grid->pos[id].ys + 2, grid->pos[id].xe - 4, grid->pos[id].ye - 4, TFT_BLACK);
+    screen.fillRect(grid->pos[id].xs + 2, grid->pos[id].ys + 2, grid->pos[id].xe - 4,
+                    grid->pos[id].ye - 4, TFT_BLACK);
     screen.setTextColor(TFT_WHITE);
 
     int line_index = -1;
@@ -69,9 +73,12 @@ int grid_output_write(GridView *grid, int id, String text, uint8_t text_position
             String new_line = l_text.substring(line_index + 1, i + 1);
 
             if (text_position == TEXT_POSITION_TOP_LEFT)
-                screen.setCursor(grid->pos[id].xs + 5, grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
+                screen.setCursor(grid->pos[id].xs + 5,
+                                 grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
             else if (text_position == TEXT_POSITION_CENTER)
-                screen.setCursor(grid->pos[id].xs + ((grid->tile_w - screen.textWidth(new_line)) / 2), grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
+                screen.setCursor(grid->pos[id].xs +
+                                     ((grid->tile_w - screen.textWidth(new_line)) / 2),
+                                 grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
 
             screen.print(new_line);
             line_index = i;
@@ -83,9 +90,11 @@ int grid_output_write(GridView *grid, int id, String text, uint8_t text_position
         String new_line = l_text.substring(line_index + 1);
 
         if (text_position == TEXT_POSITION_TOP_LEFT)
-            screen.setCursor(grid->pos[id].xs + 5, grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
+            screen.setCursor(grid->pos[id].xs + 5,
+                             grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
         else if (text_position == TEXT_POSITION_CENTER)
-            screen.setCursor(grid->pos[id].xs + ((grid->tile_w - screen.textWidth(new_line)) / 2), grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
+            screen.setCursor(grid->pos[id].xs + ((grid->tile_w - screen.textWidth(new_line)) / 2),
+                             grid->pos[id].ys + (str_count * screen.fontHeight(1)) + 5);
 
         screen.print(new_line);
     }

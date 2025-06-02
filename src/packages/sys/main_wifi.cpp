@@ -1,6 +1,6 @@
-#include "kernel/dev/screen/screen.h"
-#include "kernel/usr/apps/apps.h"
-#include "kernel/usr/gui/gui.h"
+#include <drivers/screen.h>
+#include <kernel/package.h>
+#include <lib/ui.h>
 
 void main_wifi(void *lp_param)
 {

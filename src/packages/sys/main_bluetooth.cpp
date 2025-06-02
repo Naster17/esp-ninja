@@ -1,7 +1,6 @@
-
-#include "kernel/usr/gui/gui.h"
-#include "kernel/usr/apps/apps.h"
-#include "kernel/dev/screen/screen.h"
+#include <drivers/screen.h>
+#include <kernel/package.h>
+#include <lib/ui.h>
 
 void main_bluetooth(void *lp_param)
 {

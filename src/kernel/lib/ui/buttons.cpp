@@ -1,5 +1,5 @@
-#include "gui.h"
-#include "kernel/dev/screen/screen.h"
+#include <lib/ui.h>
+#include <drivers/screen.h>
 
 void grid_add_button(GridView *grid, String title, uint8_t font_size)
 {

@@ -1,5 +1,5 @@
-#include "gui.h"
-#include "kernel/dev/screen/screen.h"
+#include <lib/ui.h>
+#include <drivers/screen.h>
 
 GridView *grid_init(const int32_t lines, const int32_t rows)
 {

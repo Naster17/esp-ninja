@@ -1,9 +1,9 @@
 #ifndef LED_HAL_H
 #define LED_HAL_H
 
+#include <Arduino.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <Arduino.h>
 
 // #ifdef LED_RGB
 #define led_init rgb_init

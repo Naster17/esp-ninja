@@ -1,4 +1,4 @@
-#include "kernel/usr/apps/apps.h"
+#include <kernel/package.h>
 
 void app_add_flashlight();
 void app_add_grid_demo();
@@ -17,6 +17,6 @@ bool apps_user()
     app_add_wifi_deauth();
     app_add_wifi_locator();
     app_add_wifi_wps();
-    
+
     return true;
 }

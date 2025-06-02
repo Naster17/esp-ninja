@@ -1,5 +1,5 @@
-#include "gui.h"
-#include "kernel/dev/screen/screen.h"
+#include <drivers/screen.h>
+#include <lib/ui.h>
 
 void status_bar(String title)
 {
@@ -12,9 +12,11 @@ void status_bar(String title)
     if (title != "")
         screen.drawString(title, 1, 1);
 
-    screen.fillRect(SCREEN_WIDTH - (SCREEN_WIDTH / BACK_BUTTON_SIZE), 0, SCREEN_WIDTH / BACK_BUTTON_SIZE, h_font, TFT_GREY2);
+    screen.fillRect(SCREEN_WIDTH - (SCREEN_WIDTH / BACK_BUTTON_SIZE), 0,
+                    SCREEN_WIDTH / BACK_BUTTON_SIZE, h_font, TFT_GREY2);
 
-    screen.drawString("x", SCREEN_WIDTH - (SCREEN_WIDTH / BACK_BUTTON_SIZE) + screen.textWidth("x") + 3, 0);
+    screen.drawString(
+        "x", SCREEN_WIDTH - (SCREEN_WIDTH / BACK_BUTTON_SIZE) + screen.textWidth("x") + 3, 0);
 }
 
 void bottom_bar()

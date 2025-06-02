@@ -1,10 +1,10 @@
-#include "apps.h"
+#include <kernel/package.h>
 
-Apps *apps = (Apps *)malloc(sizeof(Apps));
+Apps *apps = (Apps *) malloc(sizeof(Apps));
 
 bool apps_init()
 {
-    memset((void *)apps, 0, sizeof(Apps));
+    memset((void *) apps, 0, sizeof(Apps));
     return true;
 }
 
