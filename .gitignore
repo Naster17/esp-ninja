@@ -1,3 +1,7 @@
+.cache
+.pio
+compile_commands.json
+
 # Prerequisites
 *.d
 
