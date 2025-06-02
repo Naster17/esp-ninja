@@ -1,6 +1,7 @@
 .cache
 .pio
 compile_commands.json
+.clang*
 
 # Prerequisites
 *.d
