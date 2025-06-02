@@ -40,18 +40,7 @@ void setup()
         bootlog("Loaded: 0 apps (Check it)", BOOT_LVL_FAILED);
     }
 
-    bootlog("Checking WiFi driver", BOOT_LVL_OK);
-    bootlog("WiFi driver version 2.2", BOOT_LVL_INFO);
-    bootlog("lib802a.a pathed!", BOOT_LVL_INFO);
-    bootlog("WiFi Injection work!!!", BOOT_LVL_OK);
-    bootlog("Checking BLE driver", BOOT_LVL_OK);
-    bootlog("Setting time...", BOOT_LVL_OK);
-    bootlog("Hooking LittleFS", BOOT_LVL_OK);
-    bootlog("LittleFS: 22KB used;", BOOT_LVL_INFO);
-    bootlog("LittleFS: 440KB free;", BOOT_LVL_INFO);
-    bootlog("Heap checking...", BOOT_LVL_OK);
-    bootlog("Heap: 268KB free;", BOOT_LVL_INFO);
-    bootlog("FirmwareVersion: 0.1 beta", BOOT_LVL_INFO);
+    bootlog("FirmwareVersion: " FIRMWARE_VERSION, BOOT_LVL_INFO);
     bootlog("Welcome to ESP32Ninja-NG", BOOT_LVL_INFO);
 
     if (boot_failed)
