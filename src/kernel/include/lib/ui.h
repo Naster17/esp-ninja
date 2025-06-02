@@ -1,5 +1,5 @@
-#ifndef grid_HAL_H
-#define grid_HAL_H
+#ifndef LIB_UI_H
+#define LIB_UI_H
 
 #include <Arduino.h>
 #include <TFT_eSPI.h>
@@ -64,7 +64,8 @@ struct compose
     int32_t xs, ys, xe, ye;
 };
 struct compose compositor(GridView *grid, String title, uint8_t font_size);
-int _updater(GridView *grid, struct compose cm, bool status, String title, Tiles type, uint8_t font_size);
+int _updater(GridView *grid, struct compose cm, bool status, String title, Tiles type,
+             uint8_t font_size);
 
 void grid_add_button(GridView *grid, String title, uint8_t font_size);
 void grid_add_radio(GridView *grid, String title, uint8_t font_size);
@@ -76,7 +77,8 @@ bool grid_radio_read(GridView *grid, String title);
 
 #define TEXT_POSITION_TOP_LEFT 0
 #define TEXT_POSITION_CENTER 1
-int grid_output_write(GridView *grid, int id, String text, uint8_t text_position, uint8_t font_size, bool append);
+int grid_output_write(GridView *grid, int id, String text, uint8_t text_position, uint8_t font_size,
+                      bool append);
 int grid_output_read(GridView *grid, String text);
 
 void grid_box_alert(GridView *grid, String title, String text, uint8_t position); // window

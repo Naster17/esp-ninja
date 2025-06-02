@@ -1,5 +1,4 @@
-#include "screen.h"
-// tft
+#include <drivers/screen.h>
 
 TFT_eSPI screen = TFT_eSPI();
 uint8_t SCREEN_ROTATE = 0;          // rotate pos
