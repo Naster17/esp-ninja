@@ -1,6 +1,7 @@
 .cache/
 .pio/
-compile_commands.json
+.ccls
+compile_commands.json*
 .clang*
 .git
 
