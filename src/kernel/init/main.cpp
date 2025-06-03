@@ -1,5 +1,4 @@
 #include <Arduino.h>
-
 #include <drivers/led.h>
 #include <drivers/screen.h>
 #include <kernel/package.h>
@@ -48,7 +47,7 @@ void setup()
         bootlog("CLICK TO CONTINUE!", BOOT_LVL_FAILED);
     }
 
-    for (uint8_t i = 0; i < 25; i++)
+    for (uint8_t i = 0; i < 35; i++)
     {
         if (touch.touched())
             break;

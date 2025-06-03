@@ -28,7 +28,7 @@ String grid_handler(GridView *grid)
         return "";
 
     CYD28_TS_Point t = touch.getPointScaled();
-
+    
     for (int i = 1; i < grid->pos_count + 1; i++)
     {
         if (t.x > grid->pos[i].xs && t.x < grid->pos[i].xs + grid->tile_w && t.y > grid->pos[i].ys && t.y < grid->pos[i].ys + grid->tile_h)
