@@ -4,12 +4,11 @@
 #include "sdkconfig.h"
 #include <inttypes.h>
 #include <stdio.h>
-#include "esp_wifi.h"
 
 void app_main(void)
 {
     printf("Hello world!\n");
-       
+
     esp_chip_info_t chip_info;
     uint32_t flash_size;
 
@@ -19,7 +18,7 @@ void app_main(void)
            (chip_info.features & CHIP_FEATURE_BT) ? "BT" : "",
            (chip_info.features & CHIP_FEATURE_BLE) ? "BLE" : "",
            (chip_info.features & CHIP_FEATURE_IEEE802154) ? ", 802.15.4 (Zigbee/Thread)" : "");
-    
+
     unsigned major_rev = chip_info.revision / 100;
     unsigned minor_rev = chip_info.revision % 100;
     printf("silicon revision v%d.%d, ", major_rev, minor_rev);
