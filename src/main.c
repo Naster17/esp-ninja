@@ -4,13 +4,15 @@
 #include "sdkconfig.h"
 #include <inttypes.h>
 #include <stdio.h>
+#include "esp_wifi.h"
 
 void app_main(void)
 {
     printf("Hello world!\n");
-
+       
     esp_chip_info_t chip_info;
     uint32_t flash_size;
+
     esp_chip_info(&chip_info);
     printf("This is %s chip with %d CPU core(s), %s%s%s%s, ", CONFIG_IDF_TARGET, chip_info.cores,
            (chip_info.features & CHIP_FEATURE_WIFI_BGN) ? "WiFi/" : "",
