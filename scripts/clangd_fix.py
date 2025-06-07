@@ -24,6 +24,7 @@ def extract_compiler():
     ccdb_data = json.loads(CCDB_BAK.read_text())
     if not ccdb_data:
         raise RuntimeError("Empty compile_commands.json.bak")
+
     cmd = ccdb_data[0]["command"]
     compiler = cmd.split()[0]
     return compiler
@@ -38,13 +39,12 @@ def parse_ccls():
             if not line or line.startswith("#"):
                 continue
             if line.startswith("%cpp"):
-                cpp_flags.extend([flag for flag in line.split()[
-                                 1:] if flag == "-Wall" or flag.startswith(KEEP_FLAGS)])
+                cpp_flags.extend([flag for flag in line.split()[1:] if flag == "-Wall" or flag.startswith(KEEP_FLAGS)])
             elif line.startswith("%c"):
                 pass  # skip C files for now
             elif not line.startswith("%"):
-                common_flags.extend([flag for flag in line.split(
-                ) if flag == "-Wall" or flag.startswith(KEEP_FLAGS)])
+                common_flags.extend([flag for flag in line.split() if flag == "-Wall" or flag.startswith(KEEP_FLAGS)])
+
     return common_flags + cpp_flags
 
 
@@ -62,7 +62,4 @@ def generate_single_entry_compile_command(compiler, flags):
 ensure_compile_commands()
 compiler_path = extract_compiler()
 filtered_flags = parse_ccls()
-entry_count = generate_single_entry_compile_command(
-    compiler_path, filtered_flags)
-
-entry_count
+entry_count = generate_single_entry_compile_command(compiler_path, filtered_flags)
