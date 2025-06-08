@@ -407,15 +407,6 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
-# Example Configuration
-#
-CONFIG_BLINK_LED_GPIO=y
-# CONFIG_BLINK_LED_STRIP is not set
-CONFIG_BLINK_GPIO=0
-CONFIG_BLINK_PERIOD=1000
-# end of Example Configuration
-
-#
 # Compiler options
 #
 # CONFIG_COMPILER_OPTIMIZATION_DEBUG is not set
