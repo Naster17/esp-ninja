@@ -1,7 +1,6 @@
 #include "drivers/lcd/cyd28.h"
 #include "driver/gpio.h"
 #include "freertos/task.h"
-#include "math.h"
 #include "stdint.h"
 #include "string.h"
 
@@ -9,21 +8,21 @@ typedef struct
 {
     uint8_t cmd;
     uint8_t data[16];
-    uint8_t databytes; // No of data in data; bit 7 = delay after set; 0xFF = end of cmds.
-
+    uint8_t databytes;
+    // No of data in data; bit 7 = delay after set; 0xFF = end of cmds.
 } lcd_init_cmd_t;
 
 spi_device_handle_t lcd_spi_handle;
 
 uint16_t lcd_width = 240;
 uint16_t lcd_height = 320;
-uint8_t  LCD_Orientation = LCD_DISPLAY_ORIENTATION_PORTRAIT;
+uint8_t LCD_Orientation = LCD_DISPLAY_ORIENTATION_PORTRAIT;
 
 void lcd_spi_pre_transfer_callback(spi_transaction_t *t)
 {
-    uintptr_t temp = (uintptr_t) t->user;          // Cast to uintptr_t first
-    uint32_t  dc = (uint32_t) (temp & 0xFFFFFFFF); // Mask to ensure it fits in 32 bits
-    gpio_set_level(PIN_NUM_DC, dc);                // setting lvl
+    uintptr_t temp = (uintptr_t) t->user;         // Cast to uintptr_t first
+    uint32_t dc = (uint32_t) (temp & 0xFFFFFFFF); // Mask to ensure it fits in 32 bits
+    gpio_set_level(PIN_NUM_DC, dc);               // setting lvl
 }
 
 void lcd_set_cmd(const uint8_t cmd)
@@ -53,11 +52,11 @@ void lcd_set_data(const uint8_t *data, int len)
     assert(ret == ESP_OK);
 }
 
-void LCD_WriteDate16(uint16_t data)
+void lcd_set_data16(uint16_t data)
 {
-    esp_err_t         ret;
+    esp_err_t ret;
     spi_transaction_t t;
-    uint8_t           dataBuf[2] = {0, 0};
+    uint8_t dataBuf[2] = {0, 0};
     dataBuf[0] = data >> 8;
     dataBuf[1] = data & 0xFF;
     memset(&t, 0, sizeof(t));
@@ -68,43 +67,42 @@ void LCD_WriteDate16(uint16_t data)
     assert(ret == ESP_OK);
 }
 
-void LCD_SetWindows(uint16_t xStar, uint16_t yStar, uint16_t xEnd, uint16_t yEnd)
+void lcd_set_windows(uint16_t xs, uint16_t ys, uint16_t xe, uint16_t ye)
 {
     uint8_t databuf[4] = {0, 0, 0, 0};
-    databuf[0] = xStar >> 8;
-    databuf[1] = 0xFF & xStar;
-    databuf[2] = xEnd >> 8;
-    databuf[3] = 0xFF & xEnd;
+    databuf[0] = xs >> 8;
+    databuf[1] = 0xFF & xs;
+    databuf[2] = xe >> 8;
+    databuf[3] = 0xFF & xe;
     lcd_set_cmd(0x2A);
     lcd_set_data(databuf, 4);
 
-    databuf[0] = yStar >> 8;
-    databuf[1] = 0xFF & yStar;
-    databuf[2] = yEnd >> 8;
-    databuf[3] = 0xFF & yEnd;
+    databuf[0] = ys >> 8;
+    databuf[1] = 0xFF & ys;
+    databuf[2] = ye >> 8;
+    databuf[3] = 0xFF & ye;
     lcd_set_cmd(0x2B);
     lcd_set_data(databuf, 4);
 
-    // write to GRAM
-    lcd_set_cmd(0x2C);
+    lcd_set_cmd(0x2C); // write to GRAM
 }
 
-void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
+void lcd_set_cursor(uint16_t xpos, uint16_t ypos)
 {
-    LCD_SetWindows(Xpos, Ypos, Xpos, Ypos);
+    lcd_set_windows(xpos, ypos, xpos, ypos);
 }
 
-void LCD_Clear(uint16_t Color)
+void lcd_clear(uint16_t color)
 {
     unsigned int i, m;
-    uint8_t      databuf[2] = {0, 0};
-    LCD_SetWindows(0, 0, lcd_width - 1, lcd_height - 1);
+    uint8_t databuf[2] = {0, 0};
+    lcd_set_windows(0, 0, lcd_width - 1, lcd_height - 1);
     for (i = 0; i < lcd_height; i++)
     {
         for (m = 0; m < lcd_width; m++)
         {
-            databuf[0] = (Color >> 8) & 0xFF;
-            databuf[1] = Color & 0xFF;
+            databuf[0] = (color >> 8) & 0xFF;
+            databuf[1] = color & 0xFF;
             lcd_set_data(databuf, 2);
         }
     }
@@ -123,7 +121,7 @@ uint32_t screen_id(void)
     return *(uint32_t *) t.rx_data;
 }
 
-void LCD_Set_Orientation(uint8_t orientation)
+void lcd_set_orientation(uint8_t orientation)
 {
     uint8_t data[] = {(1 << 3) | (0 << 6) | (0 << 7),            // 0
                       (1 << 3) | (1 << 6) | (1 << 7),            // 1
@@ -151,7 +149,7 @@ void LCD_Set_Orientation(uint8_t orientation)
 
 bool lcd_init(void)
 {
-    int            cmd = 0;
+    int cmd = 0;
     lcd_init_cmd_t ili_init_cmds[] = {
         {0xCF, {0x00, 0xD9, 0X30}, 3},
         {0xED, {0x64, 0x03, 0X12, 0X81}, 4},
@@ -210,9 +208,7 @@ bool lcd_init(void)
     gpio_set_level(PIN_NUM_BCKL, 1);
 
     if (screen_id() <= 0)
-    {
         return false;
-    }
 
     while (ili_init_cmds[cmd].databytes != 0xff)
     {
@@ -225,9 +221,8 @@ bool lcd_init(void)
         cmd++;
     }
 
-    LCD_Set_Orientation(LCD_DISPLAY_ORIENTATION_PORTRAIT_INVERTED);
+    lcd_set_orientation(LCD_DISPLAY_ORIENTATION_PORTRAIT);
     lcd_set_cmd(0x21); // invert color
-    LCD_Clear(BLUE);
-
+    lcd_clear(BLACK);
     return true;
 }
