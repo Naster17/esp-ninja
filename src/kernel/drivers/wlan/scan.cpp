@@ -1,6 +1,5 @@
 #include "WiFi.h"
-#include "wifi_hal.h"
-
+#include <drivers/wlan.h>
 
 String scan_aps()
 {
@@ -10,7 +9,7 @@ String scan_aps()
 
     const int n = WiFi.scanNetworks();
     String arr[n][3];
-    
+
     for (int i = 0; i < n; ++i)
     {
         arr[i][0] = WiFi.SSID(i);
