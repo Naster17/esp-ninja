@@ -26,7 +26,7 @@
  *
  */
 
-#include "CYD28.h"
+#include <drivers/cyd28.h>
 #include <SPI.h>
 
 #define ISR_PREFIX IRAM_ATTR

@@ -1,1 +1,0 @@
-CYD28 aka ILI9341 for simple
