@@ -9,7 +9,7 @@ void setup()
 {
     Serial.begin(115200);
     bool boot_failed = false;
-
+    
     set_rotate(0);
 
     bootlog("Initializing screen...", screen_init());
