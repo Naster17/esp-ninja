@@ -2,9 +2,7 @@
 #include <drivers/cyd28.h>
 #include <drivers/touch.h>
 
-#ifdef ILI9341_2_DRIVER
 CYD28_TouchR touch(TFT_HEIGHT, TFT_WIDTH);
-#endif
 
 // For feature maybe rewrite to pure C
 // But create nice arch now

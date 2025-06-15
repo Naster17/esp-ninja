@@ -8,14 +8,10 @@
 extern TFT_eSPI screen;
 extern int32_t SCREEN_HEIGHT; // dymanic HEIGHT
 extern int32_t SCREEN_WIDTH;  // dymanic WIDTH
+#undef ILI9341_DRIVER
 
-#ifdef ILI9341_2_DRIVER
 #include "drivers/cyd28.h"
 extern CYD28_TouchR touch;
-#else
-#warning "using generic screen driver!"
-#include "generic/generic.h"
-#endif
 
 bool screen_init();
 bool touch_init();
