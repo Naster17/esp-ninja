@@ -1,5 +1,6 @@
-#include <lib/ui.h>
 #include <drivers/screen.h>
+#include <drivers/touch.h>
+#include <lib/ui.h>
 
 int bar_handler()
 {
@@ -9,7 +10,8 @@ int bar_handler()
     // Debug for you
     // Serial.printf("Touch Pressed: x=%d, y=%d\n", t.x, t.y);
     // for (int i = 1; i < btn->count + 1; i++)
-    // Serial.printf("%d: xs:%d ys:%d, xe:%d ye:%d, title:%s\n", i, btn->pos[i].xs, btn->pos[i].ys, btn->pos[i].xe, btn->pos[i].ye, btn->titles[i]);
+    // Serial.printf("%d: xs:%d ys:%d, xe:%d ye:%d, title:%s\n", i, btn->pos[i].xs, btn->pos[i].ys,
+    // btn->pos[i].xe, btn->pos[i].ye, btn->titles[i]);
 
     CYD28_TS_Point t = touch.getPointScaled();
     int32_t bt_start = TFT_WIDTH - (TFT_WIDTH / BACK_BUTTON_SIZE);
@@ -24,14 +26,15 @@ int bar_handler()
 
 String grid_handler(GridView *grid)
 {
-    if (!touch.touched())
+    if (touch_touched())
         return "";
 
     CYD28_TS_Point t = touch.getPointScaled();
-    
+
     for (int i = 1; i < grid->pos_count + 1; i++)
     {
-        if (t.x > grid->pos[i].xs && t.x < grid->pos[i].xs + grid->tile_w && t.y > grid->pos[i].ys && t.y < grid->pos[i].ys + grid->tile_h)
+        if (t.x > grid->pos[i].xs && t.x < grid->pos[i].xs + grid->tile_w &&
+            t.y > grid->pos[i].ys && t.y < grid->pos[i].ys + grid->tile_h)
         {
             animator(i, grid);
             return grid->pos[i].title;
