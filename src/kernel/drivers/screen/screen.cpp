@@ -1,10 +1,12 @@
 #include <drivers/screen.h>
 
+// For feature maybe rewrite to pure C
+// But create nice arch now
+
 TFT_eSPI screen = TFT_eSPI();
 uint8_t SCREEN_ROTATE = 0;          // rotate pos
 int32_t SCREEN_HEIGHT = TFT_HEIGHT; // dymanic HEIGHT
 int32_t SCREEN_WIDTH = TFT_WIDTH;   // dymanic WIDTH
-
 
 bool screen_init()
 {
@@ -20,9 +22,9 @@ bool screen_init()
     return true;
 }
 
-
-void set_rotate(int r)
+void screen_rotate(int r)
 {
+    SCREEN_ROTATE = r;
 
     if (r == 0)
     {
@@ -45,9 +47,6 @@ void set_rotate(int r)
         SCREEN_HEIGHT = TFT_WIDTH;
     }
 
-    SCREEN_ROTATE = r;
     screen.setRotation(r);
-    touch.setRotation(r);
-
     screen.fillScreen(TFT_BLACK);
 }

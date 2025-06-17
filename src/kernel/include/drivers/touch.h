@@ -5,5 +5,6 @@
 
 bool touch_init();
 void touch_rotate(uint8_t r);
+bool touch_touched();
 
 #endif

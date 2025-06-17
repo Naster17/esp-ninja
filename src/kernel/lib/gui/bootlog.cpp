@@ -1,5 +1,5 @@
-#include <lib/ui.h>
 #include <drivers/screen.h>
+#include <lib/ui.h>
 
 void bootlog(String log, uint8_t lvl)
 {

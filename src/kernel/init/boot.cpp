@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <drivers/led.h>
 #include <drivers/screen.h>
+#include <drivers/touch.h>
 #include <kernel/package.h>
 #include <lib/ui.h>
 
@@ -9,6 +10,7 @@ void boot()
     bool boot_failed = false;
     bootlog("Initializing screen...", screen_init());
     bootlog("Initializing touch...", touch_init());
+
 #ifdef LED_RGB
     bootlog("Initializing RGB LED...", rgb_init());
     bootlog("RGB LED blinking test!", BOOT_LVL_INFO);
@@ -42,7 +44,7 @@ void boot()
 
     for (uint8_t i = 0; i < 20; i++)
     {
-        if (touch.touched())
+        if (touch_touched())
             i--;
         if (boot_failed)
             i--;
@@ -51,14 +53,14 @@ void boot()
     }
     // timely dissabled
     // Simple executor
-    for (int i = 1; i < apps->count + 1; i++)
-    {
-        if (apps->list[i].app_name == "Main")
-        {
-            apps->list[i].entry(NULL);
-            break;
-        }
-    }
-    // if Main app not found
-    bootlog("Started App NOT FOUND!", BOOT_LVL_FAILED);
+    // for (int i = 1; i < apps->count + 1; i++)
+    // {
+    //     if (apps->list[i].app_name == "Main")
+    //     {
+    //         apps->list[i].entry(NULL);
+    //         break;
+    //     }
+    // }
+    // // if Main app not found
+    // bootlog("Started App NOT FOUND!", BOOT_LVL_FAILED);
 }

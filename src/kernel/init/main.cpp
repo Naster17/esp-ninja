@@ -9,7 +9,7 @@ void boot();
 void setup()
 {
     Serial.begin(115200);
-    set_rotate(0);
+    screen_rotate(0);
     boot();
 }
 

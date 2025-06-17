@@ -10,13 +10,7 @@ extern int32_t SCREEN_HEIGHT; // dymanic HEIGHT
 extern int32_t SCREEN_WIDTH;  // dymanic WIDTH
 #undef ILI9341_DRIVER
 
-#include "drivers/cyd28.h"
-extern CYD28_TouchR touch;
-
 bool screen_init();
-bool touch_init();
-
-// dynamic rotation
-void set_rotate(int r);
+void screen_rotate(int r);
 
 #endif // SCREEN_DRIVER_H
