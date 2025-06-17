@@ -2,12 +2,10 @@
 #include <drivers/cyd28.h>
 #include <drivers/touch.h>
 
-CYD28_TouchR touch(TFT_HEIGHT, TFT_WIDTH);
-
 // For feature maybe rewrite to pure C
 // But create nice arch now
 
-extern uint8_t SCREEN_ROTATE;
+CYD28_TouchR touch(TFT_HEIGHT, TFT_WIDTH);
 
 // touch
 bool touch_init()
@@ -21,8 +19,12 @@ bool touch_init()
     }
     else
     {
-        return true;
-        touch.setRotation(SCREEN_ROTATE);
         touch.setThreshold(50);
+        return true;
     }
+}
+
+void touch_rotate(uint8_t r)
+{
+    touch.setRotation(r);
 }
