@@ -15,7 +15,7 @@ void setup()
     Serial.begin(115200);
     screen_rotate(0);
     boot();
-    String a = "wewe";
+    screen_printf("wewe %s dick %d\n", "cock", 32);
 
     pkg_add("Wewe", "boy", prt);
     pkg_add("Wewe2", "boy2", prt);

@@ -49,7 +49,6 @@ void boot()
             i--;
         if (boot_failed)
             i--;
-
         delay(100);
     }
     // timely dissabled
