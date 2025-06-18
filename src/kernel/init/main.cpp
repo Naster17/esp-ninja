@@ -1,3 +1,11 @@
+/*
+ * If you are surprised by this code and are not very familiar with the C language
+ * and its philosophy, know that this is its most similar version to C, and is an
+ * intermediate layer between simplicity and community support, and low-level code on C.
+ * All the complications in the form of my wrappers around the functions of libraries and
+ * the Arduino framework are not accidental, but created specifically for the
+ * future migration to the C language. By large fat ass C++
+ */
 #include <Arduino.h>
 #include <drivers/screen.h>
 #include <kernel/packages.h>
