@@ -1,8 +1,9 @@
-.cache/
-.pio/
+.cache
+.pio
 .ccls
 compile_commands.json*
-.clang*
+.clangd
+.clang
 .git
 
 # Prerequisites
