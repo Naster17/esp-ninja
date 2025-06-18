@@ -6,9 +6,6 @@
 #include <kernel/packages.h>
 #include <lib/ui.h>
 
-#define KERNEL_VERSION "0.1.1"
-#define PACKAGES_BUILD "20250618 (1)"
-
 void boot()
 {
     bool boot_failed = false;
@@ -39,8 +36,8 @@ void boot()
     //     bootlog("Loaded: 0 apps (Check it)", BOOT_LVL_FAILED);
     // }
     bootlogf(BOOT_LVL_INFO, "Free heap: %lu KB", mem_free_get_kb());
-    bootlog("Kernel Version: " KERNEL_VERSION, BOOT_LVL_INFO);
-    bootlog("Packages Build: " PACKAGES_BUILD, BOOT_LVL_INFO);
+    bootlogf(BOOT_LVL_INFO, "Kernel Version: %d.%d.%d", KERNEL_MAJOR, KERNEL_MINOR, KERNEL_PATCH);
+    bootlogf(BOOT_LVL_INFO, "Packages Build: %d", PACKAGES_BUILD);
 
     bootlog("!!!Welcome to ESP-Ninja!!!", BOOT_LVL_INFO);
 

@@ -26,7 +26,10 @@ void setup()
     boot();
 
     screen_printf("wewe %s dick %d\n", "cock", 32);
+    screen_clear();
+
     navbar();
+
     pkg_add("Wewe", "boy", prt);
     pkg_add("Wewe2", "boy2", prt);
     pkg_add("Wewe3", "boy3", prt);

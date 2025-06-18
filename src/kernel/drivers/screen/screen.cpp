@@ -50,3 +50,8 @@ void screen_rotate(int r)
     screen.setRotation(r);
     screen.fillScreen(TFT_BLACK);
 }
+
+void screen_clear()
+{
+    screen.fillScreen(TFT_BLACK);
+}
