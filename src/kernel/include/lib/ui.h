@@ -7,14 +7,14 @@
 #define FIRMWARE_VERSION "0.6.1" // hah)
 
 // colors
-#define TFT_GREY 0x2985
-#define TFT_GREY2 0x18c3
-#define TFT_GREY3 0x9492
+#define TFT_GREY      0x2985
+#define TFT_GREY2     0x18c3
+#define TFT_GREY3     0x9492
 #define TFT_DARKGREY1 0x0861
 
-#define BOOT_LVL_OK 1
+#define BOOT_LVL_OK     1
 #define BOOT_LVL_FAILED 0
-#define BOOT_LVL_INFO 2
+#define BOOT_LVL_INFO   2
 
 typedef enum Tiles
 {
@@ -76,7 +76,7 @@ void grid_add_slide(GridView *grid);
 bool grid_radio_read(GridView *grid, String title);
 
 #define TEXT_POSITION_TOP_LEFT 0
-#define TEXT_POSITION_CENTER 1
+#define TEXT_POSITION_CENTER   1
 int grid_output_write(GridView *grid, int id, String text, uint8_t text_position, uint8_t font_size,
                       bool append);
 int grid_output_read(GridView *grid, String text);
@@ -96,6 +96,7 @@ void _animator_button(int32_t c, GridView *grid);
 int bar_handler();
 void status_bar(String title = "");
 void bottom_bar();
-void bootlog(String log, uint8_t lvl);
+// void bootlog(String log, uint8_t lvl);
+void bootlog(const char *log, uint8_t lvl);
 
 #endif

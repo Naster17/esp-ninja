@@ -1,36 +1,36 @@
 #include <drivers/screen.h>
 #include <lib/ui.h>
 
-void bootlog(String log, uint8_t lvl)
+void bootlog(const char *log, uint8_t lvl)
 {
     if (lvl == BOOT_LVL_OK)
     {
-        screen.print("[  ");
-        screen.setTextColor(TFT_GREEN);
-        screen.print("OK");
-        screen.setTextColor(TFT_WHITE);
-        screen.print("  ]");
-        screen.print(" ");
-        screen.println(log);
+        screen_print("[  ");
+        screen_set_text_color(TFT_GREEN);
+        screen_print("OK");
+        screen_set_text_color(TFT_WHITE);
+        screen_print("  ]");
+        screen_print(" ");
+        screen_println(log);
     }
     else if (lvl == BOOT_LVL_FAILED)
     {
-        screen.print("[");
-        screen.setTextColor(TFT_RED);
-        screen.print("FAILED");
-        screen.setTextColor(TFT_WHITE);
-        screen.print("]");
-        screen.print(" ");
-        screen.println(log);
+        screen_print("[");
+        screen_set_text_color(TFT_RED);
+        screen_print("FAILED");
+        screen_set_text_color(TFT_WHITE);
+        screen_print("]");
+        screen_print(" ");
+        screen_println(log);
     }
     else if (lvl == BOOT_LVL_INFO)
     {
-        screen.print("[ ");
-        screen.setTextColor(TFT_BLUE);
-        screen.print("INFO");
-        screen.setTextColor(TFT_WHITE);
-        screen.print(" ]");
-        screen.print(" ");
-        screen.println(log);
+        screen_print("[ ");
+        screen_set_text_color(TFT_BLUE);
+        screen_print("INFO");
+        screen_set_text_color(TFT_WHITE);
+        screen_print(" ]");
+        screen_print(" ");
+        screen_println(log);
     }
 }

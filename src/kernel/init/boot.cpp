@@ -10,6 +10,7 @@ void boot()
     bool boot_failed = false;
     bootlog("Initializing screen...", screen_init());
     bootlog("Initializing touch...", touch_init());
+    bootlog("Failed test...", 0);
 
 #ifdef LED_RGB
     bootlog("Initializing RGB LED...", rgb_init());
