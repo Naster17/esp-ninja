@@ -13,7 +13,10 @@ typedef struct package_struct
     package_struct *next;
 } package_struct;
 
-bool pkg_init();
-int pkg_add();
+package_struct *pkg_create(const char *name, const char *category, int (*pkg_main)(void *params));
 
+int pkg_add(const char *name, const char *category, int (*pkg_main)(void *params));
+
+void pkg_print(package_struct *head);
+void pkg_debug();
 #endif
