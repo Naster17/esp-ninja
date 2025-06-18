@@ -1,5 +1,20 @@
-#include <drivers/screen.h>
 #include <lib/ui.h>
+#include <stdarg.h>
+
+#include <drivers/screen.h>
+
+void bootlogf(uint8_t l, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    int size = vsnprintf(nullptr, 0, format, args) + 1;
+    char *buffer = (char *) malloc(size);
+    vsnprintf(buffer, size, format, args);
+    va_end(args);
+    // bootlog
+    bootlog(buffer, l);
+    free(buffer);
+}
 
 void bootlog(const char *log, uint8_t lvl)
 {

@@ -15,5 +15,6 @@
 #define BOOT_LVL_INFO   2
 
 void bootlog(const char *log, uint8_t lvl);
+void bootlogf(uint8_t l, const char *format, ...);
 
 #endif

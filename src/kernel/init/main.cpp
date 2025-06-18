@@ -21,9 +21,6 @@ void setup()
     pkg_add("Wewe2", "boy2", prt);
     pkg_add("Wewe3", "boy3", prt);
     pkg_debug();
-    // char buf[32];
-    // sprintf(buf, "RAM: %dkb", (xPortGetFreeHeapSize() / 1024));
-    // Serial.println(buf);
 }
 
 void loop() {}

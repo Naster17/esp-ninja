@@ -2,8 +2,12 @@
 #include <drivers/led.h>
 #include <drivers/screen.h>
 #include <drivers/touch.h>
+#include <kernel/mm.h>
 #include <kernel/packages.h>
 #include <lib/ui.h>
+
+#define KERNEL_VERSION "0.1.1"
+#define PACKAGES_BUILD "20250618 (1)"
 
 void boot()
 {
@@ -34,8 +38,11 @@ void boot()
     //     boot_failed = true;
     //     bootlog("Loaded: 0 apps (Check it)", BOOT_LVL_FAILED);
     // }
-    bootlog("FirmwareVersion: 0.1.1", BOOT_LVL_INFO);
-    bootlog("Welcome to ESP32Ninja-NG", BOOT_LVL_INFO);
+    bootlogf(BOOT_LVL_INFO, "Free heap: %lu KB", mem_free_get_kb());
+    bootlog("Kernel Version: " KERNEL_VERSION, BOOT_LVL_INFO);
+    bootlog("Packages Build: " PACKAGES_BUILD, BOOT_LVL_INFO);
+
+    bootlog("!!!Welcome to ESP-Ninja!!!", BOOT_LVL_INFO);
 
     if (boot_failed)
     {
@@ -49,6 +56,9 @@ void boot()
             i--;
         if (boot_failed)
             i--;
+        if (boot_failed && touch_touched())
+            break;
+
         delay(100);
     }
     // timely dissabled
