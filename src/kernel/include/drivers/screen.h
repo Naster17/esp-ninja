@@ -35,5 +35,7 @@ void screen_println(const char *s);
 // GFX
 //
 void screen_set_text_color(uint16_t color);
+void screen_draw_rect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color);
+void screen_fill_rect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color);
 
 #endif // SCREEN_DRIVER_H

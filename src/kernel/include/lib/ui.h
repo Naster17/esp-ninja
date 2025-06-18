@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <TFT_eSPI.h>
+#include <drivers/screen.h>
 
 // colors
 #define TFT_GREY1     0x2985
@@ -16,13 +17,18 @@
 
 typedef struct grid_t
 {
-
+    uint32_t blk_width;
+    uint32_t blk_height;
+    uint32_t blks_y;
+    uint32_t blks_x;
 } grid_t;
 
 typedef struct widget_t
 {
 
 } widget_t;
+
+void navbar();
 
 // Bootlogging
 void bootlog(const char *log, uint8_t lvl);

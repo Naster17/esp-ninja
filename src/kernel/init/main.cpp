@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <drivers/screen.h>
 #include <kernel/packages.h>
+#include <lib/ui.h>
 /*
  * If you are surprised by this code and are not very familiar with the C language
  * and its philosophy, cus this is an intermediate layer between simplicity and community
@@ -25,7 +26,7 @@ void setup()
     boot();
 
     screen_printf("wewe %s dick %d\n", "cock", 32);
-
+    navbar();
     pkg_add("Wewe", "boy", prt);
     pkg_add("Wewe2", "boy2", prt);
     pkg_add("Wewe3", "boy3", prt);
