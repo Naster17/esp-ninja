@@ -8,7 +8,7 @@ uint8_t SCREEN_ROTATE = 0;          // rotate pos
 int32_t SCREEN_HEIGHT = TFT_HEIGHT; // dymanic HEIGHT
 int32_t SCREEN_WIDTH = TFT_WIDTH;   // dymanic WIDTH
 
-bool screen_init()
+int screen_init()
 {
     screen.init();
     screen.invertDisplay(1);
@@ -19,7 +19,7 @@ bool screen_init()
     ledcSetup(0, 5000, 8); // Channel 0, 10khz, 8bits
     ledcAttachPin(TFT_BL, 0);
     ledcWrite(0, 255);
-    return true;
+    return 0;
 }
 
 void screen_rotate(int r)

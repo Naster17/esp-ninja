@@ -6,8 +6,7 @@
 #include <stdint.h>
 
 // #ifdef LED_RGB
-#define led_init rgb_init
-bool rgb_init();
+int led_init();
 void blink(int c, bool r, bool g, bool b);
 void set_state(bool r, bool g, bool b);
 

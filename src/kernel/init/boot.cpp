@@ -10,10 +10,10 @@ void boot()
     bool boot_failed = false;
     bootlog("Initializing screen...", screen_init());
     bootlog("Initializing touch...", touch_init());
-    bootlog("Failed test...", 0);
+    bootlog("Failed test...", BOOT_LVL_FAILED);
 
 #ifdef LED_RGB
-    bootlog("Initializing RGB LED...", rgb_init());
+    bootlog("Initializing RGB LED...", led_init());
     bootlog("RGB LED blinking test!", BOOT_LVL_INFO);
     blink(3, 1, 1, 1);
 #else
@@ -34,7 +34,7 @@ void boot()
     //     boot_failed = true;
     //     bootlog("Loaded: 0 apps (Check it)", BOOT_LVL_FAILED);
     // }
-    bootlog("FirmwareVersion: " FIRMWARE_VERSION, BOOT_LVL_INFO);
+    bootlog("FirmwareVersion: 0.1.1", BOOT_LVL_INFO);
     bootlog("Welcome to ESP32Ninja-NG", BOOT_LVL_INFO);
 
     if (boot_failed)

@@ -12,7 +12,7 @@ extern int32_t SCREEN_WIDTH;
 // Core
 //
 
-bool screen_init();
+int screen_init();
 void screen_rotate(int r);
 
 //

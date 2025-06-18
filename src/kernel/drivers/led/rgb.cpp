@@ -1,7 +1,7 @@
 #include <drivers/led.h>
 
 // #ifdef LED_RGB
-bool rgb_init()
+int led_init()
 {
     pinMode(LED_RED, OUTPUT);   // RED
     pinMode(LED_GREEN, OUTPUT); // GREEN
@@ -12,7 +12,7 @@ bool rgb_init()
     digitalWrite(LED_GREEN, 1);
     digitalWrite(LED_BLUE, 1);
 
-    return true;
+    return 0;
 }
 
 void blink(int c, bool r, bool g, bool b)

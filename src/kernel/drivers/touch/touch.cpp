@@ -12,20 +12,17 @@ CYD28_TouchR touch(TFT_HEIGHT, TFT_WIDTH);
 #endif
 
 // touch
-bool touch_init()
+int touch_init()
 {
     pinMode(TOUCH_CS, OUTPUT);
     digitalWrite(TOUCH_CS, HIGH);
 
     if (!touch.begin())
     {
-        return false;
+        return 1;
     }
-    else
-    {
-        touch.setThreshold(50);
-        return true;
-    }
+    touch.setThreshold(50);
+    return 0;
 }
 
 void touch_rotate(uint8_t r)
