@@ -12,7 +12,10 @@ extern int32_t SCREEN_WIDTH;
 // Core
 //
 
+// Set initializy SPI to work with screen
 int screen_init();
+
+// Rotate screen
 void screen_rotate(int r);
 
 //

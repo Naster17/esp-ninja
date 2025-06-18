@@ -14,6 +14,17 @@
 #define BOOT_LVL_FAILED 1
 #define BOOT_LVL_INFO   2
 
+typedef struct grid_t
+{
+
+} grid_t;
+
+typedef struct widget_t
+{
+
+} widget_t;
+
+// Bootlogging
 void bootlog(const char *log, uint8_t lvl);
 void bootlogf(uint8_t l, const char *format, ...);
 
