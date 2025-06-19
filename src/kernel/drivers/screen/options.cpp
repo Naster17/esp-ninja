@@ -16,3 +16,8 @@ int16_t screen_get_font_height()
 {
     return screen.fontHeight();
 }
+
+int16_t screen_get_text_width(const char *s)
+{
+    return screen.textWidth(s);
+}

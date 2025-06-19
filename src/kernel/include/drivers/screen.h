@@ -39,6 +39,7 @@ void screen_printfc(int32_t x, int32_t y, const char *format, ...);
 void screen_set_text_color(uint16_t color);
 void screen_set_text_size(uint8_t size);
 int16_t screen_get_font_height();
+int16_t screen_get_text_width(const char *s);
 
 void screen_draw_line(int32_t xs, int32_t ys, int32_t xe, int32_t ye, uint32_t color);
 void screen_draw_rect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color);
