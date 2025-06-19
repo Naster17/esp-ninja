@@ -29,6 +29,7 @@ void setup()
     screen_clear();
 
     navbar();
+    statusbar();
 
     pkg_add("Wewe", "boy", prt);
     pkg_add("Wewe2", "boy2", prt);

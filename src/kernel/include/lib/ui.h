@@ -29,6 +29,7 @@ typedef struct widget_t
 } widget_t;
 
 void navbar();
+void statusbar();
 
 // Bootlogging
 void bootlog(const char *log, uint8_t lvl);
