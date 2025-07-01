@@ -1,4 +1,3 @@
-#include "TFT_eSPI.h"
 #include <cstdint>
 #include <drivers/screen.h>
 #include <kernel/mm.h>

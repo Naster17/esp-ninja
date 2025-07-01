@@ -8,7 +8,7 @@
  * support, and low-level code on C
  * All the complications in the form of my wrappers around the functions of libraries and
  * the Arduino framework are not accidental, but created specifically for the
- * future migration to the C language. By large fat ass C++
+ * future migration to the C language. By big fat ass C++
  */
 
 void boot();
@@ -21,7 +21,6 @@ int prt(void *p)
 
 void setup()
 {
-    Serial.begin(115200);
     screen_rotate(0);
     boot();
 
