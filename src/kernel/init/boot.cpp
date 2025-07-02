@@ -70,4 +70,5 @@ void boot()
     // }
     // // if Main app not found
     // bootlog("Started App NOT FOUND!", BOOT_LVL_FAILED);
+    screen_clear();
 }
