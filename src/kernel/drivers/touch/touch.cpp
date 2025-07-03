@@ -34,3 +34,15 @@ bool touch_touched()
 {
     return touch.touched();
 }
+
+touch_point touch_get_point(bool scale)
+{
+    CYD28_TS_Point t;
+    if (scale)
+        // z is for pressure of touch
+        t = touch.getPointScaled();
+    else
+        t = touch.getPointRaw();
+
+    return (touch_point) {t.x, t.y, t.z};
+}

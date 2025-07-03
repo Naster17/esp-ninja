@@ -32,6 +32,7 @@ void blink(int c, bool r, bool g, bool b)
 
 void set_state(bool r, bool g, bool b)
 {
+    // inverting led logic LOW = HIGH
     digitalWrite(LED_RED, r ? 0 : 1);
     digitalWrite(LED_GREEN, g ? 0 : 1);
     digitalWrite(LED_BLUE, b ? 0 : 1);

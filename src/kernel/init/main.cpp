@@ -1,3 +1,4 @@
+#include "drivers/touch.h"
 #include <Arduino.h>
 #include <drivers/screen.h>
 #include <drivers/serial.h>
@@ -24,12 +25,13 @@ void setup()
 {
     serial_begin(115200);
     screen_rotate(0);
+    touch_rotate(0);
     boot();
 
-    screen_printf("wewe %s dick %d\n", "cock", 32);
+    screen_printfc(0, 20, "wewe %s dick %d\n", "cock", 32);
 
-    navbar();
-    statusbar();
+    bar_navigation();
+    bar_status();
 
     pkg_add("Wewe", "boy", prt);
     pkg_add("Wewe2", "boy2", prt);
@@ -37,4 +39,13 @@ void setup()
     pkg_debug();
 }
 
-void loop() {}
+void loop()
+{
+    touch_point p = touch_get_point(true);
+    screen_printfc(50, 100, "x: %d y: %d z: %d\n", p.x, p.y, p.z);
+    screen_clear();
+    delay(30);
+    // this mean is pressure
+    if (p.z > 1)
+        serial_printf("x: %d y: %d z: %d \n", p.x, p.y, p.z);
+}
