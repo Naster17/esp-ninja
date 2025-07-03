@@ -51,8 +51,6 @@ touch_point touch_get_point(bool scale)
     return (touch_point) {t.x, t.y, t.z};
 }
 
-// TODO: make for loops dinamic, not ony with 254 it.
-
 touch_point _middle(touch_point b[])
 {
     // be avare of overflow
@@ -70,11 +68,14 @@ touch_point _middle(touch_point b[])
 }
 
 #define _ti _touch_in_treshold
+// found trashold read notation on TRASHOLD define
 bool _touch_in_treshold(touch_point b[], touch_point m[])
 {
     return (abs(b->x - m->x) <= TOUCH_TRESHOLD) && (abs(b->y - m->y) <= TOUCH_TRESHOLD);
 }
 
+// trigered when 2 click peaks in record
+// is same postion + treshold
 bool _touch_is_double_click(touch_point *b)
 {
     // found peak patterns
@@ -94,6 +95,22 @@ bool _touch_is_double_click(touch_point *b)
             peak_c = 0;
     }
     return peaks >= 2;
+}
+
+// trigered when more then 90% of rec is press
+// in same possition + treshold
+bool _touch_is_long_press(touch_point *b)
+{
+    touch_point middle = _middle(b);
+    int16_t pressed = 0, not_pressed = 0;
+    for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
+    {
+        if (b[i].z >= 1 && _ti(b, &middle))
+            pressed++;
+        else
+            not_pressed++;
+    }
+    return (pressed > 0.9 * BEHAVIOR_REC);
 }
 
 void behav_debug(touch_point behavior[])
@@ -124,20 +141,33 @@ touch_state_t touch_get_state()
         delay(2); // 255 x 2 = 510ms
     }
     // debug
-    for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
-    {
-        if (behavior[i].z >= 1)
-        {
-            behav_debug(behavior);
-            break;
-        }
-    }
+    // for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
+    // {
+    //     if (behavior[i].z >= 1)
+    //     {
+    //         behav_debug(behavior);
+    //         break;
+    //     }
+    // }
     // analyze behavior
     touch_point middle = _middle(behavior);
     state_struct.point = {middle.x, middle.y, middle.z};
+    // serial_printf("middle: x: %d, y: %d, z: %d\n", middle.x, middle.y, middle.z);
 
     if (_touch_is_double_click(behavior))
+    {
         state_struct.state = TOUCH_DOUBLE_CLICK;
+    }
+    else if (_touch_is_long_press(behavior))
+    {
+        state_struct.state = TOUCH_LONG_PRESS;
+    }
+    else if (middle.z >= 1)
+    {
+        // first click position
+        state_struct.state = TOUCH_CLICK;
+        state_struct.point = {behavior[0].x, behavior[0].y, behavior[0].z};
+    }
 
     free(behavior);
     return state_struct;

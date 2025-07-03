@@ -6,7 +6,7 @@
 // This def used for touch behavior record
 // by reduce it you can get more faster feadback
 // by increase you can get more acurate feadback
-#define BEHAVIOR_REC 200 // ms (max is 255)
+#define BEHAVIOR_REC 200 // it * 2ms (max is 255)
 
 // This def used for touch aim treshold
 // if you make allot misses you can increes this val
@@ -30,8 +30,7 @@ typedef enum touch_state
     TOUCH_CLICK,
     TOUCH_DOUBLE_CLICK,
     // press
-    TOUCH_PRESS,
-    TOUCH_PRESS_LONG,
+    TOUCH_LONG_PRESS,
     // swipe
     TOUCH_SWIPE_UP,
     TOUCH_SWIPE_DOWN,

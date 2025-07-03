@@ -1,9 +1,11 @@
+#include "esp32-hal.h"
 #include <Arduino.h>
 #include <drivers/screen.h>
 #include <drivers/serial.h>
 #include <drivers/touch.h>
 #include <kernel/packages.h>
 #include <lib/ui.h>
+
 /*
  * If you are surprised by this code and are not very familiar with the C
  * language and its philosophy, cus this is an intermediate layer between
@@ -49,22 +51,24 @@ void loop()
 
     if (state.state == TOUCH_DOUBLE_CLICK)
     {
-        serial_printf("time: %lu ms\n", executionTime);
         serial_print("DOUBLE CLICK!\n");
+        delay(150); // pseudo work dalay
+    }
+    else if (state.state == TOUCH_LONG_PRESS)
+    {
+        serial_print("LONG PRESS!\n");
+        delay(200); // pseudo work dalay
+    }
+    else if (state.state == TOUCH_CLICK)
+    {
+        serial_print("CLICK!\n");
+    }
+
+    if (state.point.z >= 1)
+    {
+        serial_printf("time: %lu ms\n", executionTime);
         serial_printf("pos: x: %d, y: %d, z: %d\n", state.point.x, state.point.y, state.point.z);
         bar_navigation();
         bar_status();
     }
-
-    // delay(1000);
-    // serial_print("\n\nStart!\n\n");
-    // delay(200);
-    // touch_point p = touch_get_point(true);
-    // screen_printfc(50, 100, "x: %d y: %d z: %d\n", p.x, p.y, p.z);
-    //
-    // screen_clear();
-    // delay(50);
-    // // this mean is pressure
-    // if (p.z > 1)
-    //     serial_printf("x: %d y: %d z: %d \n", p.x, p.y, p.z);
 }
