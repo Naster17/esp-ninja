@@ -63,11 +63,31 @@ void loop()
     {
         serial_print("CLICK!\n");
     }
+    else if (state.state == TOUCH_SWIPE_DOWN)
+    {
+        serial_print("SWIPE DOWN!\n");
+        delay(100); // pseudo work dalay
+    }
+    else if (state.state == TOUCH_SWIPE_UP)
+    {
+        serial_print("SWIPE UP!\n");
+        delay(100); // pseudo work dalay
+    }
+    else if (state.state == TOUCH_SWIPE_LEFT)
+    {
+        serial_print("SWIPE LEFT!\n");
+        delay(100); // pseudo work dalay
+    }
+    else if (state.state == TOUCH_SWIPE_RIGHT)
+    {
+        serial_print("SWIPE RIGHT!\n");
+        delay(100); // pseudo work dalay
+    }
 
     if (state.point.z >= 1)
     {
         serial_printf("time: %lu ms\n", executionTime);
-        serial_printf("pos: x: %d, y: %d, z: %d\n", state.point.x, state.point.y, state.point.z);
+        serial_printf("pos: x: %d, y: %d, z: %d\n\n", state.point.x, state.point.y, state.point.z);
         bar_navigation();
         bar_status();
     }

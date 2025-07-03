@@ -43,11 +43,10 @@ touch_point touch_get_point(bool scale)
 {
     CYD28_TS_Point t;
     if (scale)
-        // z is for pressure of touch
         t = touch.getPointScaled();
     else
         t = touch.getPointRaw();
-
+    // z is for pressure of touch
     return (touch_point) {t.x, t.y, t.z};
 }
 
@@ -72,6 +71,29 @@ touch_point _middle(touch_point b[])
 bool _touch_in_treshold(touch_point b[], touch_point m[])
 {
     return (abs(b->x - m->x) <= TOUCH_TRESHOLD) && (abs(b->y - m->y) <= TOUCH_TRESHOLD);
+}
+
+// trigered when 1 click peaks in record
+// is same postion + treshold
+bool _touch_is_click(touch_point *b)
+{
+    // found peak patterns
+    uint16_t peaks = 0, peak_c = 0;
+    touch_point middle = _middle(b);
+
+    for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
+    {
+        // if peak in same postion + treshold
+        if (b[i].z >= 1 && _ti(b, &middle))
+            peak_c++;
+        // i == 254 if the latest peak is end peak
+        if (peak_c >= 8 && (b[i].z == 0 || i == BEHAVIOR_REC - 1))
+            peaks++;
+        // reset the peak counter
+        if (b[i].z <= 0)
+            peak_c = 0;
+    }
+    return peaks == 1;
 }
 
 // trigered when 2 click peaks in record
@@ -110,12 +132,81 @@ bool _touch_is_long_press(touch_point *b)
         else
             not_pressed++;
     }
+#ifdef DEBUG
+    serial_printf("long.press: %d/%d\n", pressed, not_pressed);
+#endif
     return (pressed > 0.9 * BEHAVIOR_REC);
+}
+
+bool _touch_is_swipe_down(touch_point *b)
+{
+    int16_t swiped = 0;
+    for (uint8_t i = 1; i < BEHAVIOR_REC; i++)
+    {
+        if (b[i].y > b[i - 1].y)
+            swiped++;
+    }
+#ifdef DEBUG
+    serial_printf("descents.down: %d\n", swiped);
+#endif
+    return (swiped > SWIPE_MULTIPLER * BEHAVIOR_REC);
+}
+
+bool _touch_is_swipe_up(touch_point *b)
+{
+    int16_t swiped = 0;
+    for (uint8_t i = 1; i < BEHAVIOR_REC; i++)
+    {
+        if (b[i].y < b[i - 1].y)
+            swiped++;
+    }
+#ifdef DEBUG
+    serial_printf("descents.up: %d\n", swiped);
+#endif
+    return (swiped > SWIPE_MULTIPLER * BEHAVIOR_REC);
+}
+
+bool _touch_is_swipe_right(touch_point *b)
+{
+    int16_t swiped = 0;
+    for (uint8_t i = 1; i < BEHAVIOR_REC; i++)
+    {
+        if (b[i].x > b[i - 1].x)
+            swiped++;
+    }
+#ifdef DEBUG
+    serial_printf("descents.right: %d\n", swiped);
+#endif
+    return (swiped > SWIPE_MULTIPLER * BEHAVIOR_REC);
+}
+
+bool _touch_is_swipe_left(touch_point *b)
+{
+    int16_t swiped = 0;
+    for (uint8_t i = 1; i < BEHAVIOR_REC; i++)
+    {
+        if (b[i].x < b[i - 1].x)
+            swiped++;
+    }
+#ifdef DEBUG
+    serial_printf("descents.left: %d\n", swiped);
+#endif
+    return (swiped > SWIPE_MULTIPLER * BEHAVIOR_REC);
 }
 
 void behav_debug(touch_point behavior[])
 {
+    bool found = false;
     serial_printf("\n=====================\n");
+    for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
+    {
+        if (behavior[i].z >= 1)
+            found = true;
+    }
+
+    if (!found)
+        return;
+
     for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
     {
         touch_point t = behavior[i];
@@ -140,15 +231,9 @@ touch_state_t touch_get_state()
         *(behavior + i) = {t.x, t.y, t.z};
         delay(2); // 255 x 2 = 510ms
     }
-    // debug
-    // for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
-    // {
-    //     if (behavior[i].z >= 1)
-    //     {
-    //         behav_debug(behavior);
-    //         break;
-    //     }
-    // }
+#ifdef DEBUG
+    behav_debug(behavior);
+#endif
     // analyze behavior
     touch_point middle = _middle(behavior);
     state_struct.point = {middle.x, middle.y, middle.z};
@@ -162,11 +247,25 @@ touch_state_t touch_get_state()
     {
         state_struct.state = TOUCH_LONG_PRESS;
     }
-    else if (middle.z >= 1)
+    else if (_touch_is_swipe_down(behavior))
     {
-        // first click position
+        state_struct.state = TOUCH_SWIPE_DOWN;
+    }
+    else if (_touch_is_swipe_up(behavior))
+    {
+        state_struct.state = TOUCH_SWIPE_UP;
+    }
+    else if (_touch_is_swipe_left(behavior))
+    {
+        state_struct.state = TOUCH_SWIPE_LEFT;
+    }
+    else if (_touch_is_swipe_right(behavior))
+    {
+        state_struct.state = TOUCH_SWIPE_RIGHT;
+    }
+    else if (_touch_is_click(behavior))
+    {
         state_struct.state = TOUCH_CLICK;
-        state_struct.point = {behavior[0].x, behavior[0].y, behavior[0].z};
     }
 
     free(behavior);
