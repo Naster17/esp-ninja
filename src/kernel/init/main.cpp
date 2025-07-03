@@ -47,10 +47,12 @@ void loop()
     unsigned long endTime = millis();                  // Запоминаем время окончания
     unsigned long executionTime = endTime - startTime; // Вычисляем время выполнения
 
-    if (state == TOUCH_DOUBLE_CLICK)
+    if (state.state == TOUCH_DOUBLE_CLICK)
     {
         serial_printf("time: %lu ms\n", executionTime);
         serial_print("DOUBLE CLICK!\n");
+        bar_navigation();
+        bar_status();
     }
 
     // delay(1000);
