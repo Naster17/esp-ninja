@@ -41,16 +41,17 @@ void setup()
 
 void loop()
 {
-    unsigned long startTime = millis(); // Запоминаем время начала
-    touch_state_t state = touch_get_state(NULL);
+    unsigned long startTime = millis();
+    touch_state_t state = touch_get_state();
 
-    unsigned long endTime = millis();                  // Запоминаем время окончания
-    unsigned long executionTime = endTime - startTime; // Вычисляем время выполнения
+    unsigned long endTime = millis();
+    unsigned long executionTime = endTime - startTime;
 
     if (state.state == TOUCH_DOUBLE_CLICK)
     {
         serial_printf("time: %lu ms\n", executionTime);
         serial_print("DOUBLE CLICK!\n");
+        serial_printf("pos: x: %d, y: %d, z: %d\n", state.point.x, state.point.y, state.point.z);
         bar_navigation();
         bar_status();
     }

@@ -45,7 +45,7 @@ typedef struct touch_state_t
     touch_point point;
 } touch_state_t;
 
-touch_state_t touch_get_state(touch_point *p);
+touch_state_t touch_get_state();
 
 touch_point touch_get_point(bool scale);
 

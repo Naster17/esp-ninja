@@ -78,27 +78,22 @@ bool _touch_in_treshold(touch_point b[], touch_point m[])
 bool _touch_is_double_click(touch_point *b)
 {
     // found peak patterns
-    uint16_t peaks = 0;
-    uint16_t peak_c = 0;
+    uint16_t peaks = 0, peak_c = 0;
     touch_point middle = _middle(b);
-    serial_printf("middle: %d, %d, %d\n", middle.x, middle.y, middle.z);
 
     for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
     {
         // if peak in same postion + treshold
         if (b[i].z >= 1 && _ti(b, &middle))
-            peak_c += 1;
+            peak_c++;
         // i == 254 if the latest peak is end peak
         if (peak_c >= 8 && (b[i].z == 0 || i == BEHAVIOR_REC - 1))
-            peaks += 1;
+            peaks++;
         // reset the peak counter
         if (b[i].z <= 0)
             peak_c = 0;
     }
-    if (peaks >= 2)
-        return true;
-
-    return false;
+    return peaks >= 2;
 }
 
 void behav_debug(touch_point behavior[])
@@ -111,7 +106,7 @@ void behav_debug(touch_point behavior[])
     }
 }
 
-touch_state_t touch_get_state(touch_point p[])
+touch_state_t touch_get_state()
 {
     touch_state_t state_struct = {.state = TOUCH_NONE, .point = {0, 0, 0}};
     touch_point *behavior = (touch_point *) calloc(BEHAVIOR_REC, sizeof(touch_point));
