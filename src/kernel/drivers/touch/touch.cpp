@@ -5,6 +5,7 @@
 #include <drivers/serial.h>
 #include <drivers/touch.h>
 #include <lib/ui.h>
+#include <stdlib.h>
 // For feature maybe rewrite to pure C
 // But create nice arch now
 
@@ -71,15 +72,7 @@ touch_point _middle(touch_point b[])
 #define _ti _touch_in_treshold
 bool _touch_in_treshold(touch_point b[], touch_point m[])
 {
-    bool result = true;
-    // invert result mean if only one from conditions is not true all function return false
-    // we can check the range from -TRESHOLD to TRESHOLD ex: from -20 to 20
-    if ((b->x - m->x) <= TOUCH_TRESHOLD && (b->x - m->x) >= -TOUCH_TRESHOLD)
-        result = false;
-    if ((b->y - m->y) <= TOUCH_TRESHOLD && (b->y - m->y) >= -TOUCH_TRESHOLD)
-        result = false;
-
-    return !result;
+    return (abs(b->x - m->x) <= TOUCH_TRESHOLD) && (abs(b->y - m->y) <= TOUCH_TRESHOLD);
 }
 
 bool _touch_is_double_click(touch_point *b)
