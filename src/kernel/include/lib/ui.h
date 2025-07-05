@@ -15,6 +15,17 @@
 #define BOOT_LVL_FAILED 1
 #define BOOT_LVL_INFO   2
 
+typedef struct ui_struct
+{
+    uint32_t h_navbar;  // navigation bar height
+    uint32_t h_statbar; // status bar height
+} ui_struct;
+
+typedef struct window_t
+{
+
+} window_t;
+
 typedef struct grid_t
 {
     uint32_t blk_width;
@@ -28,6 +39,8 @@ typedef struct widget_t
 
 } widget_t;
 
+bool ui_init();
+bool bar_init();
 void bar_navigation();
 void bar_status();
 

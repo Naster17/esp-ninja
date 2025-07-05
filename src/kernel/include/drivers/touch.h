@@ -19,7 +19,7 @@
 // This is percentage of found postions descents
 // good is 0.11-0.15 is 11-15% founded descents
 // -------> how many descents found is this swipe
-#define SWIPE_MULTIPLER 0.12
+#define SWIPE_MULTIPLER 0.14
 
 // struct to trace touches
 typedef struct touch_point
