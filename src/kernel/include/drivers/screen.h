@@ -52,4 +52,7 @@ void screen_fill_circle(int32_t x, int32_t y, int32_t r, uint32_t color);
 
 void screen_fill_rect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color);
 
+// positioning variant
+void screen_fill_rect_p(int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t color);
+
 #endif // SCREEN_DRIVER_H

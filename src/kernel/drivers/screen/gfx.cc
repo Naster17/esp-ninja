@@ -10,6 +10,10 @@ void screen_fill_rect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t color
 {
     screen.fillRect(x, y, w, h, color);
 }
+void screen_fill_rect_p(int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t color)
+{
+    screen.fillRect(x1, y1, (x2 - x1), (x2 - x1), color);
+}
 
 void screen_draw_line(int32_t xs, int32_t ys, int32_t xe, int32_t ye, uint32_t color)
 {

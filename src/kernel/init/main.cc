@@ -1,4 +1,3 @@
-#include "esp32-hal.h"
 #include <Arduino.h>
 #include <drivers/screen.h>
 #include <drivers/serial.h>

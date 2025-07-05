@@ -3,6 +3,14 @@
 #include <drivers/serial.h>
 #include <drivers/touch.h>
 
+#define _ti _touch_in_treshold
+// found trashold read notation on TRASHOLD define
+bool _touch_in_treshold(touch_point b[], touch_point m[])
+{
+    return (abs(b->x - m->x) <= TOUCH_TRESHOLD) && (abs(b->y - m->y) <= TOUCH_TRESHOLD);
+}
+
+// middle zone positioning of clicks
 touch_point _middle(touch_point b[])
 {
     // be avare of overflow
@@ -17,13 +25,6 @@ touch_point _middle(touch_point b[])
     return {(int16_t) (max_x / BEHAVIOR_REC),  // x
             (int16_t) (max_y / BEHAVIOR_REC),  // y
             (int16_t) (max_z / BEHAVIOR_REC)}; // z
-}
-
-#define _ti _touch_in_treshold
-// found trashold read notation on TRASHOLD define
-bool _touch_in_treshold(touch_point b[], touch_point m[])
-{
-    return (abs(b->x - m->x) <= TOUCH_TRESHOLD) && (abs(b->y - m->y) <= TOUCH_TRESHOLD);
 }
 
 // trigered when 1 click peaks in record
@@ -172,11 +173,8 @@ touch_state_t touch_get_state()
     touch_state_t state_struct = {.state = TOUCH_NONE, .point = {0, 0, 0}};
     touch_point *behavior = (touch_point *) calloc(BEHAVIOR_REC, sizeof(touch_point));
     // wait to user interaction to start recording
-    for (;;)
-    {
-        if (touch_get_point(true).z >= 1)
-            break;
-    }
+    while (!touch_touched())
+        ;
     // record user interaction
     for (uint8_t i = 0; i < BEHAVIOR_REC; i++)
     {
@@ -184,42 +182,35 @@ touch_state_t touch_get_state()
         *(behavior + i) = {t.x, t.y, t.z};
         delay(2); // 255 x 2 = 510ms
     }
-#ifdef DEBUG
-    behav_debug(behavior);
-#endif
     // analyze behavior
     touch_point middle = _middle(behavior);
     state_struct.point = {middle.x, middle.y, middle.z};
-    // serial_printf("middle: x: %d, y: %d, z: %d\n", middle.x, middle.y, middle.z);
 
+#ifdef DEBUG
+    behav_debug(behavior);
+    // serial_printf("middle: x: %d, y: %d, z: %d\n", middle.x, middle.y, middle.z);
+#endif
+    // maybe fix this shit (idea with strcut but it is -200bytes from stack)
     if (_touch_is_double_click(behavior))
-    {
         state_struct.state = TOUCH_DOUBLE_CLICK;
-    }
+
     else if (_touch_is_long_press(behavior))
-    {
         state_struct.state = TOUCH_LONG_PRESS;
-    }
+
     else if (_touch_is_swipe_down(behavior))
-    {
         state_struct.state = TOUCH_SWIPE_DOWN;
-    }
+
     else if (_touch_is_swipe_up(behavior))
-    {
         state_struct.state = TOUCH_SWIPE_UP;
-    }
+
     else if (_touch_is_swipe_left(behavior))
-    {
         state_struct.state = TOUCH_SWIPE_LEFT;
-    }
+
     else if (_touch_is_swipe_right(behavior))
-    {
         state_struct.state = TOUCH_SWIPE_RIGHT;
-    }
+
     else if (_touch_is_click(behavior))
-    {
         state_struct.state = TOUCH_CLICK;
-    }
 
     free(behavior);
     return state_struct;

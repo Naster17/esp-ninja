@@ -3,6 +3,9 @@
 #include <kernel/mm.h>
 #include <lib/ui.h>
 
+// yeh I know its look crazy
+// but it is geometry dinamic screen positions
+
 uint32_t bar_navigation_HEIGHT;
 uint32_t bar_status_HEIGHT;
 
@@ -10,7 +13,6 @@ void bar_navigation()
 {
     screen_set_text_size(1);
     bar_navigation_HEIGHT = (screen_get_font_height() * 2) + (screen_get_font_height() / 2);
-
     int32_t bar_navigation_start = SCREEN_HEIGHT - bar_navigation_HEIGHT;
 
     // draw main gray rect

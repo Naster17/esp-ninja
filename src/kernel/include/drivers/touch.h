@@ -21,6 +21,7 @@
 // -------> how many descents found is this swipe
 #define SWIPE_MULTIPLER 0.12
 
+// struct to trace touches
 typedef struct touch_point
 {
     int16_t x;
@@ -28,6 +29,7 @@ typedef struct touch_point
     int16_t z;
 } touch_point;
 
+// all touch states
 typedef enum touch_state
 {
     TOUCH_NONE,
@@ -43,18 +45,34 @@ typedef enum touch_state
     TOUCH_SWIPE_RIGHT
 } touch_state;
 
+// touch state abstract struct type
 typedef struct touch_state_t
 {
     touch_state state;
     touch_point point;
 } touch_state_t;
 
-touch_state_t touch_get_state();
+//
+// Base
+//
 
+// initialize touch
+int touch_init();
+
+// rotate touch same vals for screen_rotate()
+void touch_rotate(uint8_t r);
+
+// if touch touched
+bool touch_touched();
+
+// get touch position
 touch_point touch_get_point(bool scale);
 
-int touch_init();
-void touch_rotate(uint8_t r);
-bool touch_touched();
+//
+// High Abstraction Layer
+//
+
+// get touch/swipe/press type & position
+touch_state_t touch_get_state();
 
 #endif
