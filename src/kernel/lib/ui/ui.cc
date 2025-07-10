@@ -11,8 +11,6 @@ bool ui_init()
     return s;
 }
 
-
-
 void ui_window_new(uint8_t flags) {
 
 }
