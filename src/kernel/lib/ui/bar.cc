@@ -8,7 +8,7 @@
 
 extern ui_struct ui_st;
 
-bool bar_init()
+bool ui_init()
 {
     // create locks here (to save struct integrity)
     screen_set_text_size(1);
