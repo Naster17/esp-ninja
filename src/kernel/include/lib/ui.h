@@ -30,6 +30,15 @@ typedef struct widget_t
 
 } widget_t;
 
+enum
+{
+    WINDOW_DEFAULT = 1 << 0,
+    WINDOW_FULL_BARS = 1 << 1,
+    WINDOW_FULL_NO_BARS = 1 << 2,
+    WINDOW_FULL_NO_NAVBAR = 1 << 3,
+    WINDOW_FULL_NO_STATBAR = 1 << 4,
+};
+
 bool ui_init();
 bool bar_init();
 void bar_navigation();
