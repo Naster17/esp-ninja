@@ -3,6 +3,26 @@
 
 ui_struct ui_st;
 
+bool ui_init()
+{
+    // bigger font + half from it
+    screen_set_text_size(2);
+    ui_st.statbar_height = RTE(screen_get_font_height() + (screen_get_font_height() / 3));
+
+    // default text height + 4 (2 + 2 borders)
+    screen_set_text_size(1);
+    ui_st.navbar_height = RTE(screen_get_font_height() + 4);
+
+    return true;
+}
+
+int rnd_to_even(int n)
+{
+    if (n % 2 == 0)
+        return n;
+    return n + (n > 0 ? 1 : -1);
+}
+
 window_t *ui_window_new(uint8_t flags)
 {
     if (flags & WINDOW_DEFAULT) {}

@@ -10,27 +10,7 @@
 
 extern ui_struct ui_st;
 
-#define RTE rnd_to_even
-int rnd_to_even(int number)
-{
-    if (number % 2 == 0)
-        return number;
 
-    return number + (number > 0 ? 1 : -1);
-}
-
-bool ui_init()
-{
-    // bigger font + half from it
-    screen_set_text_size(2);
-    ui_st.statbar_height = RTE(screen_get_font_height() + (screen_get_font_height() / 3));
-
-    // default text height + 4 (2 + 2 borders)
-    screen_set_text_size(1);
-    ui_st.navbar_height = RTE(screen_get_font_height() + 4);
-
-    return true;
-}
 void bar_status()
 {
     screen_fill_rect(0, 0, SCREEN_WIDTH, ui_st.statbar_height, COLOR_GREY_1);
@@ -46,7 +26,7 @@ void bar_navigation()
 
     // calculate the border size in px
     int16_t border = ((ui_st.navbar_height - screen_get_font_height()) / 2) + 1;
-    int16_t sides = 4;
+    int16_t sides = 3;
 
     // print kernel version
     screen_printfc(sides, (SCREEN_HEIGHT - ui_st.navbar_height) + border, // x, y

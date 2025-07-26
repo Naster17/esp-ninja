@@ -39,6 +39,9 @@ enum
     WINDOW_FULL_NO_STATBAR = 1 << 4,
 };
 
+#define RTE rnd_to_even
+int rnd_to_even(int n);
+
 bool ui_init();
 bool bar_init();
 void bar_navigation();
