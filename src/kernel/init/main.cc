@@ -33,10 +33,20 @@ void setup()
     bar_navigation();
     bar_status();
 
-    pkg_add("Wewe", "boy", prt);
-    pkg_add("Wewe2", "boy2", prt);
-    pkg_add("Wewe3", "boy3", prt);
-    pkg_debug();
+    grid_t *grid = ui_grid_new(3, 3);
+    bar_navigation();
+    bar_status();
+
+    _mtx_set(grid, 0, 0, 1);
+    _mtx_set(grid, 0, 1, 2);
+    _mtx_set(grid, 1, 0, 3);
+
+    serial_printf("0,0: %d\n", _mtx_get(grid, 0, 0));
+    serial_printf("0,1: %d\n", _mtx_get(grid, 0, 1));
+    serial_printf("1,0: %d\n", _mtx_get(grid, 1, 0));
+    serial_printf("1,1: %d\n", _mtx_get(grid, 1, 1));
+
+    ui_grid_free(grid);
 }
 
 void loop() {}

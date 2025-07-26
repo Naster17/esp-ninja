@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <drivers/screen.h>
 #include <lib/ui.h>
 
@@ -37,10 +38,24 @@ void ui_window_set_title() {}
 
 void ui_window_set_border_width() {}
 
+uint16_t _mtx_get(grid_t *grid, size_t row, size_t col)
+{
+    return grid->mtx[row * grid->cols + col];
+}
+
+void _mtx_set(grid_t *grid, size_t row, size_t col, uint16_t value)
+{
+    grid->mtx[row * grid->cols + col] = value;
+}
+
 grid_t *ui_grid_new(const uint32_t rows, const uint32_t cols)
 {
-    // allocate cell size h/w
     grid_t *grid = (grid_t *) malloc(sizeof(grid_t));
+    // allocate rows cols
+    grid->cols = cols;
+    grid->rows = rows;
+
+    // allocate cell size h/w
     grid->cell_width = SCREEN_WIDTH / cols;
     grid->cell_height = SCREEN_HEIGHT / rows;
 
@@ -50,7 +65,36 @@ grid_t *ui_grid_new(const uint32_t rows, const uint32_t cols)
     memset(mtx, 0, mtx_s);
     grid->mtx = mtx;
 
+    // NULL the widgets head
+    grid->wt_head = NULL;
+
     return grid;
+}
+
+void ui_grid_attach(grid_t *grid, widget_t *widget, int (*handler)(void *data), void *data)
+{
+    if (grid->wt_head == NULL)
+    {
+        grid->wt_head = widget;
+        return;
+    }
+
+    widget_t *tmp = grid->wt_head;
+    while (tmp->next != NULL)
+    {
+        tmp = tmp->next;
+    }
+    tmp->next = widget;
+}
+
+widget_t *ui_button_new(const char *label)
+{
+    widget_t *wd = (widget_t *) malloc(sizeof(widget_t));
+    wd->id = 11;
+    wd->type = BUTTON;
+    wd->label = label;
+
+    return wd;
 }
 
 void ui_grid_free(grid_t *grid)
