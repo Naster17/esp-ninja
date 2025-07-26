@@ -34,8 +34,6 @@ void setup()
     bar_status();
 
     grid_t *grid = ui_grid_new(3, 3);
-    bar_navigation();
-    bar_status();
 
     _mtx_set(grid, 0, 0, 1);
     _mtx_set(grid, 0, 1, 2);
@@ -46,6 +44,22 @@ void setup()
     serial_printf("1,0: %d\n", _mtx_get(grid, 1, 0));
     serial_printf("1,1: %d\n", _mtx_get(grid, 1, 1));
 
+    widget_t *wd = ui_button_new("wewe");
+    ui_grid_attach(grid, wd, NULL, NULL);
+    widget_t *wd2 = ui_button_new("wewe2");
+    ui_grid_attach(grid, wd2, NULL, NULL);
+    widget_t *wd3 = ui_button_new("wewe3");
+    ui_grid_attach(grid, wd3, NULL, NULL);
+
+    widget_t *tmp = grid->wt_head;
+    do
+    {
+        serial_printf("%s\n", tmp->label);
+        tmp = tmp->next;
+    } while (tmp != NULL);
+
+    bar_navigation();
+    bar_status();
     ui_grid_free(grid);
 }
 

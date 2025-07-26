@@ -66,6 +66,8 @@ typedef struct grid_t
     widget_t *wt_head;
 } grid_t;
 
+void ui_grid_attach(grid_t *grid, widget_t *widget, int (*handler)(void *data), void *data);
+
 //
 // Other
 //

@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <drivers/screen.h>
+#include <drivers/serial.h>
 #include <lib/ui.h>
 
 ui_struct ui_st;
@@ -93,6 +94,7 @@ widget_t *ui_button_new(const char *label)
     wd->id = 11;
     wd->type = BUTTON;
     wd->label = label;
+    wd->next = NULL;
 
     return wd;
 }
