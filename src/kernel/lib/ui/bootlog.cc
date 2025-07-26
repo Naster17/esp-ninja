@@ -17,6 +17,7 @@ void bootlogf(uint8_t l, const char *format, ...)
 
 void bootlog(const char *log, uint8_t lvl)
 {
+    screen_set_text_size(1);
     if (lvl == BOOT_LVL_OK)
     {
         screen_print("[  ");

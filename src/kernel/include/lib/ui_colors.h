@@ -26,9 +26,11 @@
 #define COLOR_SILVER      0xC618 /* 192, 192, 192 */
 #define COLOR_SKYBLUE     0x867D /* 135, 206, 235 */
 #define COLOR_VIOLET      0x915C /* 180,  46, 226 */
-#define COLOR_GREY1       0x2985
-#define COLOR_GREY2       0x18c3
-#define COLOR_GREY3       0x9492
-#define COLOR_DARKGREY1   0x0861
+// custom
+#define COLOR_GREY_1 0x0020
+#define COLOR_GREY_2 0x0841
+#define COLOR_GREY_3 0x1082
+#define COLOR_GREY_4 0x18e3
+#define COLOR_GREY_5 0x39e7
 
 #endif

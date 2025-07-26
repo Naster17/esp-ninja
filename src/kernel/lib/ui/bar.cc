@@ -1,66 +1,69 @@
 #include <cstdint>
 #include <drivers/screen.h>
+#include <drivers/serial.h>
 #include <kernel/mm.h>
 #include <lib/ui.h>
+#include <lib/ui_colors.h>
 
 // yeh I know its look crazy
 // but it is geometry dinamic screen positions
 
 extern ui_struct ui_st;
 
+#define RTE rnd_to_even
+int rnd_to_even(int number)
+{
+    if (number % 2 == 0)
+        return number;
+
+    return number + (number > 0 ? 1 : -1);
+}
+
 bool ui_init()
 {
-    // create locks here (to save struct integrity)
+    // bigger font + half from it
+    screen_set_text_size(2);
+    ui_st.statbar_height = RTE(screen_get_font_height() + (screen_get_font_height() / 3));
+
+    // default text height + 4 (2 + 2 borders)
     screen_set_text_size(1);
-    // height with 2 lines of text and + half of one line height
-    ui_st.navbar_height = (screen_get_font_height() * 2) + (screen_get_font_height() / 2);
-    // height 1 line of text and + 2 pixels for margine
-    ui_st.statbar_height = screen_get_font_height() + 2;
-    // create unlock
+    ui_st.navbar_height = RTE(screen_get_font_height() + 4);
+
     return true;
+}
+void bar_status()
+{
+    screen_fill_rect(0, 0, SCREEN_WIDTH, ui_st.statbar_height, COLOR_GREY_1);
+    // screen_printfc(0, 0, "%d\n", ui_st.statbar_height);
 }
 
 void bar_navigation()
 {
     screen_set_text_size(1);
-    int32_t bar_navigation_HEIGHT = (screen_get_font_height() * 2) + (screen_get_font_height() / 2);
-    int32_t bar_navigation_start = SCREEN_HEIGHT - bar_navigation_HEIGHT;
+    screen_fill_rect(0, SCREEN_HEIGHT - ui_st.navbar_height, //
+                     SCREEN_WIDTH, ui_st.navbar_height,      //
+                     COLOR_GREY_1);
 
-    // draw main gray rect
-    screen_fill_rect(0, bar_navigation_start, SCREEN_WIDTH, bar_navigation_HEIGHT, COLOR_GREY2);
-    screen_draw_line(0, bar_navigation_start, SCREEN_WIDTH, bar_navigation_start, COLOR_GREY1);
+    // calculate the border size in px
+    int16_t border = ((ui_st.navbar_height - screen_get_font_height()) / 2) + 1;
+    int16_t sides = 4;
 
-    // draw delimeter lines
-    uint8_t bord_size = 2;
-    int32_t bls = SCREEN_WIDTH / 3;
-    screen_fill_rect(bls, bar_navigation_start, bord_size, bar_navigation_HEIGHT, COLOR_DARKGREY1);
-    screen_fill_rect((bls * 2) - bord_size, bar_navigation_start, bord_size, bar_navigation_HEIGHT,
-                     COLOR_DARKGREY1);
+    // print kernel version
+    screen_printfc(sides, (SCREEN_HEIGHT - ui_st.navbar_height) + border, // x, y
+                   "%d.%d.%d", KERNEL_MAJOR, KERNEL_MINOR, KERNEL_PATCH);
 
-    // draw icons
-    uint8_t triag_border = 2;
-    uint8_t circle_border = 2;
-    screen_fill_triangle((bls * 2) + (bls / 3) + triag_border, bar_navigation_start + triag_border,
-                         (bls * 2) + (bls / 3) + triag_border, SCREEN_HEIGHT - triag_border,
-                         (bls * 2) + (bls / 3) + (bls / 3) + triag_border,
-                         SCREEN_HEIGHT - (bar_navigation_HEIGHT / 2), COLOR_GREY3);
-    screen_fill_circle(bls + (bls / 2), bar_navigation_start + (bar_navigation_HEIGHT / 2),
-                       (bar_navigation_HEIGHT / 2) - circle_border, COLOR_GREY3);
-
-    // draw strings
-    screen_printfc(3, SCREEN_HEIGHT - (screen_get_font_height() * 2) - 1, "Free   %dkb",
-                   mem_free_get_kb());
-    screen_printfc(3, SCREEN_HEIGHT - screen_get_font_height() - 1, "Kernel %d.%d.%d", KERNEL_MAJOR,
-                   KERNEL_MINOR, KERNEL_PATCH);
+    // print memory info
+    const char *mem_free = mem_free_get_str();
+    screen_printfc((SCREEN_WIDTH - screen_get_text_width(mem_free)) - sides, // x
+                   (SCREEN_HEIGHT - ui_st.navbar_height) + border,           // y
+                   "%s", mem_free);
 }
 
-void bar_status()
+void color_debug()
 {
-    screen_set_text_size(1);
-    int32_t bar_status_HEIGHT = screen_get_font_height() + 2;
-
-    screen_fill_rect(0, 0, SCREEN_WIDTH, bar_status_HEIGHT, COLOR_GREY2);
-
-    const char *rtc = "14:20";
-    screen_printfc(SCREEN_WIDTH - screen_get_text_width(rtc) - 1, 2, "%s\n", rtc);
+    screen_fill_rect(0, 0, SCREEN_WIDTH, 30, COLOR_GREY_1);
+    screen_fill_rect(0, 30, SCREEN_WIDTH, 30, COLOR_GREY_2);
+    screen_fill_rect(0, 60, SCREEN_WIDTH, 30, COLOR_GREY_3);
+    screen_fill_rect(0, 90, SCREEN_WIDTH, 30, COLOR_GREY_4);
+    screen_fill_rect(0, 120, SCREEN_WIDTH, 30, COLOR_GREY_5);
 }

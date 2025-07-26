@@ -27,6 +27,7 @@ void setup()
     serial_begin(115200);
     screen_rotate(0);
     touch_rotate(0);
+    ui_init();
     boot();
 
     bar_navigation();
