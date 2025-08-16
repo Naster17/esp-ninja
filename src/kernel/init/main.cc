@@ -35,14 +35,6 @@ void setup()
 
     grid_t *grid = ui_grid_new(3, 3);
 
-    _mtx_set(grid, 0, 0, 1);
-    _mtx_set(grid, 0, 1, 2);
-    _mtx_set(grid, 1, 0, 3);
-
-    serial_printf("0,0: %d\n", _mtx_get(grid, 0, 0));
-    serial_printf("0,1: %d\n", _mtx_get(grid, 0, 1));
-    serial_printf("1,0: %d\n", _mtx_get(grid, 1, 0));
-    serial_printf("1,1: %d\n", _mtx_get(grid, 1, 1));
 
     widget_t *wd = ui_button_new("wewe");
     ui_grid_attach(grid, wd, NULL, NULL);

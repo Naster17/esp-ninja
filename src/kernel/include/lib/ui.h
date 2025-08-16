@@ -60,8 +60,6 @@ typedef struct grid_t
     // cell sizes
     uint32_t cell_width;
     uint32_t cell_height;
-    // grid matrix
-    uint16_t *mtx;
     // widgets linked list
     widget_t *wt_head;
 } grid_t;
