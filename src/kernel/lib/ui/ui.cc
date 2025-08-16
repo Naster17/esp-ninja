@@ -1,3 +1,5 @@
+#include "lib/ui_colors.h"
+#include <cstdint>
 #include <cstdlib>
 #include <drivers/screen.h>
 #include <drivers/serial.h>
@@ -39,7 +41,6 @@ void ui_window_set_title() {}
 
 void ui_window_set_border_width() {}
 
-
 grid_t *ui_grid_new(const uint32_t rows, const uint32_t cols)
 {
     grid_t *grid = (grid_t *) malloc(sizeof(grid_t));
@@ -56,9 +57,26 @@ grid_t *ui_grid_new(const uint32_t rows, const uint32_t cols)
 
     return grid;
 }
-
-void ui_grid_attach(grid_t *grid, widget_t *widget, int (*handler)(void *data), void *data)
+void ui_widget_connect(widget_t *widget, widget_event event, int (*handler)(void *p), void *data)
 {
+    // wewe
+    // CREATE hiden event struct to connect multiple events to one widget
+}
+
+void ui_widget_style_connect(widget_t *widget, widget_style *style)
+{
+    // wewe
+}
+
+// fuck start with 0, 0, IM write 3/3 row/cols I get 3 cols and 3 rows
+void ui_grid_attach(grid_t *grid, widget_t *widget, int16_t row, int16_t col, int16_t w, int16_t h)
+{
+    // positioning widget
+    widget->row = row;
+    widget->col = col;
+    widget->width = w;
+    widget->height = h;
+
     if (grid->wt_head == NULL)
     {
         grid->wt_head = widget;
@@ -79,12 +97,35 @@ widget_t *ui_button_new(const char *label)
     wd->id = 11;
     wd->type = BUTTON;
     wd->label = label;
+    // wd->style = NULL;
     wd->next = NULL;
 
     return wd;
 }
 
+//
+// Main Drawer
+//
+void ui_run(grid_t *grid)
+{
+    widget_t *widget = grid->wt_head;
+    while (widget->next != NULL)
+    {
+
+        widget = widget->next;
+    }
+}
+
 void ui_grid_free(grid_t *grid)
 {
+    widget_t *tmp;
+    widget_t *current = grid->wt_head;
+    while (current != NULL)
+    {
+        tmp = current;
+        current = current->next;
+        free(tmp);
+    }
+    grid->wt_head = NULL;
     free(grid);
 }

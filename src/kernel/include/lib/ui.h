@@ -1,6 +1,7 @@
 #ifndef LIB_UI_H
 #define LIB_UI_H
 
+#include "drivers/touch.h"
 #include <Arduino.h>
 #include <TFT_eSPI.h>
 #include <cstdint>
@@ -33,6 +34,12 @@ typedef struct window_t
 //
 // Widgets
 //
+typedef struct widget_style
+{
+    uint16_t color;
+
+} widget_style;
+
 typedef enum widget_type
 {
     BUTTON,
@@ -40,23 +47,39 @@ typedef enum widget_type
     RADIO,
 } widget_type;
 
+typedef enum widget_event
+{
+    CLICKED,
+    DOUBLE_CLICKED,
+    HOLDED,
+} widget_event;
+
 typedef struct widget_t
 {
     uint16_t id;
     widget_type type;
+    widget_style style;
+    // button
     const char *label;
+    int icon;
+    widget_event event;
+    int (*handler)(void *p);
+    // w/h in row/cols like 1/1
+    uint16_t row, col;
+    uint16_t width, height;
+
     widget_t *next;
 } widget_t;
 
 widget_t *ui_button_new(const char *label);
+void ui_widget_style_connect(widget_t *widget, widget_style *style);
 
 //
 // Grid
 //
 typedef struct grid_t
 {
-    uint16_t cols;
-    uint16_t rows;
+    uint16_t rows, cols;
     // cell sizes
     uint32_t cell_width;
     uint32_t cell_height;
@@ -64,7 +87,9 @@ typedef struct grid_t
     widget_t *wt_head;
 } grid_t;
 
-void ui_grid_attach(grid_t *grid, widget_t *widget, int (*handler)(void *data), void *data);
+void ui_grid_attach(grid_t *grid, widget_t *widget, int16_t row, int16_t col, int16_t w, int16_t h);
+void ui_widget_connect(widget_t *widget, widget_event event, int (*handler)(void *p), void *data);
+void ui_run(grid_t *grid);
 
 //
 // Other
