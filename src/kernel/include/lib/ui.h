@@ -1,11 +1,9 @@
 #ifndef LIB_UI_H
 #define LIB_UI_H
 
-#include "drivers/touch.h"
 #include <Arduino.h>
-#include <TFT_eSPI.h>
-#include <cstdint>
 #include <drivers/screen.h>
+#include <drivers/touch.h>
 #include <lib/ui_colors.h>
 
 //
@@ -36,8 +34,9 @@ typedef struct window_t
 //
 typedef struct widget_style
 {
-    uint16_t color;
-
+    int color_bg;
+    int color_text;
+    int color_frame;
 } widget_style;
 
 typedef enum widget_type
@@ -58,7 +57,7 @@ typedef struct widget_t
 {
     uint16_t id;
     widget_type type;
-    widget_style style;
+    widget_style *style;
     // button
     const char *label;
     int icon;
@@ -73,6 +72,7 @@ typedef struct widget_t
 
 widget_t *ui_button_new(const char *label);
 void ui_widget_style_connect(widget_t *widget, widget_style *style);
+void ui_drawer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t widget);
 
 //
 // Grid

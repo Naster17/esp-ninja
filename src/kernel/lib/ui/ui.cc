@@ -50,7 +50,7 @@ grid_t *ui_grid_new(const uint32_t rows, const uint32_t cols)
 
     // allocate cell size h/w
     grid->cell_width = SCREEN_WIDTH / cols;
-    grid->cell_height = SCREEN_HEIGHT / rows;
+    grid->cell_height = (SCREEN_HEIGHT - (ui_st.navbar_height + ui_st.statbar_height)) / rows;
 
     // NULL the widgets head
     grid->wt_head = NULL;
@@ -97,23 +97,59 @@ widget_t *ui_button_new(const char *label)
     wd->id = 11;
     wd->type = BUTTON;
     wd->label = label;
-    // wd->style = NULL;
-    wd->next = NULL;
+    widget_style *style = (widget_style *) malloc(sizeof(widget_style));
+    style->color_bg = COLOR_GREY_5;
+    style->color_text = COLOR_GREY_1;
+    style->color_frame = COLOR_GREY_2;
+    wd->style = style;
 
+    wd->next = NULL;
     return wd;
 }
 
 //
 // Main Drawer
 //
+
+void ui_drawer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
+{
+    if (widget->type == BUTTON)
+    {
+        screen_fill_rect(x, y, w, h, widget->style->color_bg);
+        // double upper frame
+        screen_draw_line(x, y, (x + w) - 1, y, widget->style->color_frame);
+        screen_draw_line(x, y + 1, (x + w) - 1, y + 1, widget->style->color_frame);
+    }
+}
+
 void ui_run(grid_t *grid)
 {
-    widget_t *widget = grid->wt_head;
-    while (widget->next != NULL)
-    {
+    if (grid->wt_head == NULL)
+        return; // maybe fix this shity do while
 
-        widget = widget->next;
-    }
+    widget_t *widget = grid->wt_head;
+    do
+    {
+        int32_t x, y;
+        int32_t w, h;
+
+        y = (grid->cell_height * widget->row) + ui_st.statbar_height;
+        h = grid->cell_height;
+        if (widget->row == 0)
+        {
+            y = ui_st.statbar_height;
+            h = grid->cell_height;
+        }
+        x = grid->cell_width * widget->col;
+        w = grid->cell_width;
+        if (widget->col == 0)
+        {
+            x = 0;
+            w = grid->cell_width;
+        }
+        ui_drawer(x, y, w * widget->width, h * widget->height, widget);
+
+    } while ((widget = widget->next) != NULL);
 }
 
 void ui_grid_free(grid_t *grid)
@@ -124,6 +160,10 @@ void ui_grid_free(grid_t *grid)
     {
         tmp = current;
         current = current->next;
+
+        if (tmp->style != NULL)
+            free(tmp->style);
+
         free(tmp);
     }
     grid->wt_head = NULL;

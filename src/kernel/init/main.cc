@@ -39,7 +39,8 @@ void setup()
     widget_t *wd2 = ui_button_new("wewe2");
     widget_t *wd3 = ui_button_new("wewe3");
     ui_grid_attach(grid, wd, 0, 0, 1, 1);
-    ui_grid_attach(grid, wd2, 2, 2, 1, 1);
+    ui_grid_attach(grid, wd2, 1, 1, 1, 1);
+    ui_grid_attach(grid, wd3, 2, 2, 1, 1);
     // widget_t *tmp = grid->wt_head;
     // do
     // {
