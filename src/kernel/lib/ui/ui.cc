@@ -16,31 +16,6 @@ bool ui_init()
     return true;
 }
 
-int rnd_to_even(int n)
-{
-    if (n % 2 == 0)
-        return n;
-    return n + (n > 0 ? 1 : -1);
-}
-
-window_t *ui_window_new(uint8_t flags)
-{
-    if (flags & WINDOW_DEFAULT) {}
-    if (flags & WINDOW_FULL_BARS) {}
-    // default small window
-    // full screen window
-    // full with bars
-    // ....
-}
-
-void ui_window_set_title() {}
-
-void ui_window_set_border_width() {}
-
-//
-// Main Drawer
-//
-
 void ui_drawer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
 {
     if (widget->type == BUTTON)
@@ -98,4 +73,3 @@ void ui_run(grid_t *grid)
 
     } while ((widget = widget->next) != NULL);
 }
-

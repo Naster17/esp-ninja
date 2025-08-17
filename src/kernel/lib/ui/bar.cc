@@ -10,6 +10,12 @@
 
 extern ui_struct ui_st;
 
+int rnd_to_even(int n)
+{
+    if (n % 2 == 0)
+        return n;
+    return n + (n > 0 ? 1 : -1);
+}
 
 void bar_status()
 {

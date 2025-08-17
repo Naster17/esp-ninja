@@ -32,7 +32,8 @@ typedef struct window_t
 //
 // Widgets
 //
-enum {
+enum
+{
     font_fixed,
     font_adaptive
 };
@@ -77,10 +78,6 @@ typedef struct widget_t
     widget_t *next;
 } widget_t;
 
-widget_t *ui_button_new(const char *label);
-void ui_widget_style_connect(widget_t *widget, widget_style *style);
-void ui_drawer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t widget);
-
 //
 // Grid
 //
@@ -94,26 +91,26 @@ typedef struct grid_t
     widget_t *wt_head;
 } grid_t;
 
-void ui_grid_attach(grid_t *grid, widget_t *widget, int16_t row, int16_t col, int16_t w, int16_t h);
-void ui_widget_connect(widget_t *widget, widget_event event, int (*handler)(void *p), void *data);
-void ui_run(grid_t *grid);
-
 //
 // Other
 //
-
-#define RTE rnd_to_even
-int rnd_to_even(int n);
-
-void _mtx_set(grid_t *grid, size_t row, size_t col, uint16_t value);
-uint16_t _mtx_get(grid_t *grid, size_t row, size_t col);
 
 bool ui_init();
 bool bar_init();
 void bar_navigation();
 void bar_status();
+
+widget_t *ui_button_new(const char *label);
+
 grid_t *ui_grid_new(const uint32_t rows, const uint32_t cols);
+void ui_grid_attach(grid_t *grid, widget_t *widget, int16_t row, int16_t col, int16_t w, int16_t h);
 void ui_grid_free(grid_t *grid);
+
+void ui_widget_connect(widget_t *widget, widget_event event, int (*handler)(void *p), void *data);
+void ui_widget_style_connect(widget_t *widget, widget_style *style);
+
+void ui_run(grid_t *grid);
+void ui_drawer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t widget);
 
 // Bootlogging
 // revork to global func like linux
@@ -124,5 +121,8 @@ void ui_grid_free(grid_t *grid);
 
 void bootlog(const char *log, uint8_t lvl);
 void bootlogf(uint8_t l, const char *format, ...);
+
+#define RTE rnd_to_even
+int rnd_to_even(int n);
 
 #endif
