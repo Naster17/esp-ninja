@@ -33,14 +33,22 @@ void setup()
     bar_navigation();
     bar_status();
 
-    grid_t *grid = ui_grid_new(3, 3);
+    grid_t *grid = ui_grid_new(4, 2);
 
-    widget_t *wd = ui_button_new("wewe");
-    widget_t *wd2 = ui_button_new("wewe2");
-    widget_t *wd3 = ui_button_new("wewe3");
-    ui_grid_attach(grid, wd, 0, 0, 1, 1);
-    ui_grid_attach(grid, wd2, 1, 1, 1, 1);
-    ui_grid_attach(grid, wd3, 2, 2, 1, 1);
+    widget_t *wd = ui_button_new("WiFi");
+    widget_t *wd2 = ui_button_new("Bluetooth");
+    widget_t *wd3 = ui_button_new("Apps");
+    widget_t *wd4 = ui_button_new("Other");
+    widget_t *wd5 = ui_button_new("Debug");
+    widget_t *wd6 = ui_button_new("Options");
+
+    ui_grid_attach(grid, wd, 0, 0, 2, 1);
+    ui_grid_attach(grid, wd2, 1, 0, 2, 1);
+    ui_grid_attach(grid, wd3, 2, 0, 1, 1);
+    ui_grid_attach(grid, wd4, 2, 1, 1, 1);
+    ui_grid_attach(grid, wd5, 3, 0, 1, 1);
+    ui_grid_attach(grid, wd6, 3, 1, 1, 1);
+
     // widget_t *tmp = grid->wt_head;
     // do
     // {

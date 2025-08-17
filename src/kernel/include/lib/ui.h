@@ -32,11 +32,18 @@ typedef struct window_t
 //
 // Widgets
 //
+enum {
+    font_fixed,
+    font_adaptive
+};
 typedef struct widget_style
 {
-    int color_bg;
-    int color_text;
-    int color_frame;
+    int bg_color;
+    int frame_color;
+    int notch_color;
+    int font_color;
+    int font_size;
+    int font_type; // fixed, adaptive
 } widget_style;
 
 typedef enum widget_type
