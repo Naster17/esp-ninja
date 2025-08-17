@@ -37,7 +37,7 @@ enum
     font_fixed,
     font_adaptive
 };
-typedef struct widget_style
+typedef struct widget_style_t
 {
     int bg_color;
     int frame_color;
@@ -45,36 +45,38 @@ typedef struct widget_style
     int font_color;
     int font_size;
     int font_type; // fixed, adaptive
-} widget_style;
+} widget_style_t;
 
-typedef enum widget_type
+enum widget_type
 {
     BUTTON,
     LABEL,
     RADIO,
-} widget_type;
+};
 
-typedef enum widget_event
+struct widget_event
 {
-    CLICKED,
-    DOUBLE_CLICKED,
-    HOLDED,
-} widget_event;
+    touch_state event;
+    int (*handler)(void *p);
+    widget_event *next;
+};
 
 typedef struct widget_t
 {
     uint16_t id;
     widget_type type;
-    widget_style *style;
-    // button
+    // styling
+    widget_style_t *style;
+    int (*renderer)(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget);
+    int (*animator)(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget);
+    // visible
     const char *label;
     int icon;
-    widget_event event;
-    int (*handler)(void *p);
+    // events
+    struct widget_event *events;
     // w/h in row/cols like 1/1
     uint16_t row, col;
     uint16_t width, height;
-
     widget_t *next;
 } widget_t;
 
@@ -107,7 +109,7 @@ void ui_grid_attach(grid_t *grid, widget_t *widget, int16_t row, int16_t col, in
 void ui_grid_free(grid_t *grid);
 
 void ui_widget_connect(widget_t *widget, widget_event event, int (*handler)(void *p), void *data);
-void ui_widget_style_connect(widget_t *widget, widget_style *style);
+void ui_widget_style_connect(widget_t *widget, widget_style_t *style);
 
 void ui_run(grid_t *grid);
 void ui_drawer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t widget);

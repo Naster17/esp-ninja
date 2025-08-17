@@ -7,7 +7,7 @@ void ui_widget_connect(widget_t *widget, widget_event event, int (*handler)(void
     // CREATE hiden event struct to connect multiple events to one widget
 }
 
-void ui_widget_style_connect(widget_t *widget, widget_style *style)
+void ui_widget_style_connect(widget_t *widget, widget_style_t *style)
 {
     // wewe
 }
