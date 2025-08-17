@@ -49,17 +49,17 @@ void setup()
     ui_grid_attach(grid, wd5, 3, 0, 1, 1);
     ui_grid_attach(grid, wd6, 3, 1, 1, 1);
 
-    widget_t *tmp = grid->wt_head;
-    do
-    {
-        serial_printf("%s\n", tmp->label);
-        tmp = tmp->next;
-    } while (tmp != NULL);
+    // widget_t *tmp = grid->wt_head;
+    // do
+    // {
+    //     serial_printf("%s\n", tmp->label);
+    //     tmp = tmp->next;
+    // } while (tmp != NULL);
 
     bar_navigation();
     bar_status();
     ui_run(grid);
-    ui_grid_free(grid);
+    // ui_grid_free(grid);
 }
 
 void loop() {}
