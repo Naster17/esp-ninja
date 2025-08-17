@@ -168,6 +168,15 @@ void behav_debug(touch_point behavior[])
     }
 }
 
+touch_state_t touch_get_state_simple()
+{
+    while (!touch_touched())
+        ;
+    touch_point t = touch_get_point(true);
+    touch_state_t state_struct = {.state = TOUCH_CLICK, .point = {t.x, t.y, t.z}};
+    return state_struct;
+}
+
 touch_state_t touch_get_state()
 {
     touch_state_t state_struct = {.state = TOUCH_NONE, .point = {0, 0, 0}};
@@ -188,7 +197,7 @@ touch_state_t touch_get_state()
 
 #ifdef DEBUG
     behav_debug(behavior);
-    // serial_printf("middle: x: %d, y: %d, z: %d\n", middle.x, middle.y, middle.z);
+    serial_printf("middle: x: %d, y: %d, z: %d\n", middle.x, middle.y, middle.z);
 #endif
     // maybe fix this shit (idea with strcut but it is -200bytes from stack)
     if (_touch_is_double_click(behavior))

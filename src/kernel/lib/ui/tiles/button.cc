@@ -2,7 +2,7 @@
 #include <drivers/serial.h>
 #include <lib/ui.h>
 
-int _default_renderer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
+int default_renderer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
 {
     screen_fill_rect(x, y, w, h, widget->style->frame_color);
     screen_fill_rect(x, y, w - 2, h - 2, widget->style->bg_color);
@@ -28,7 +28,7 @@ int _default_renderer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widg
     }
     return 0;
 }
-int _default_animator(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
+int default_animator(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
 {
     screen_fill_rect(x, y, w, h, widget->style->frame_color);
     screen_fill_rect(x, y, w - 2, h - 2, COLOR_GREY_2);
@@ -53,7 +53,7 @@ int _default_animator(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widg
         screen_printfc(x + border, y + border_top, "%s", widget->label);
     }
     delay(150);
-    _default_renderer(x, y, w, h, widget);
+    default_renderer(x, y, w, h, widget);
     // add Label sortner Like Blue...
     return 0;
 }
@@ -74,8 +74,8 @@ widget_t *ui_button_new(const char *label)
     style->font_size = 2;
     widget->style = style;
 
-    widget->renderer = _default_renderer;
-    widget->animator = _default_animator;
+    widget->renderer = default_renderer;
+    widget->animator = default_animator;
 
     widget->events = NULL;
 

@@ -6,7 +6,7 @@
 // This def used for touch behavior record
 // by reduce it you can get more faster feadback
 // by increase you can get more acurate feadback
-#define BEHAVIOR_REC 200 // it * 2ms (max is 255)
+#define BEHAVIOR_REC 150 // it * 2ms (max is 255)
 
 // This def used for touch aim treshold
 // if you make allot misses you can increes this val
@@ -74,5 +74,6 @@ touch_point touch_get_point(bool scale);
 
 // get touch/swipe/press type & position
 touch_state_t touch_get_state();
+touch_state_t touch_get_state_simple();
 
 #endif

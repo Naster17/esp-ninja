@@ -61,9 +61,12 @@ void ui_touch_handler(grid_t *grid, touch_state_t *st)
         if (widget->col == 0)
             x = 0;
 
+        serial_printf("x: %d y: %d\n", st->point.x, st->point.y);
+
+        // if (st->point.x < (x + w) && st->point.x > x && st->point.y < (y + h) && st->point.y > y)
         if (st->point.x < (x + w) && st->point.x > x && st->point.y < (y + h) && st->point.y > y)
         {
-            serial_print(widget->label);
+            serial_printf("%s\n", widget->label);
             widget->animator(x, y, w, h, widget);
         }
 
@@ -75,11 +78,11 @@ void ui_run(grid_t *grid)
     ui_draw(grid);
     for (;;)
     {
+        // very big latency TODO: FIX
         touch_state_t st = touch_get_state();
         if (st.state != TOUCH_NONE)
         {
             ui_touch_handler(grid, &st);
-            // ui_draw(grid);
         }
     }
 }

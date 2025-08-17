@@ -25,6 +25,8 @@ int prt(void *p)
 void setup()
 {
     serial_begin(115200);
+    // found bug when rotate to 1 touch calibration is break and return 
+    // more high value in top and more lower in bottom of the screen
     screen_rotate(0);
     touch_rotate(0);
     ui_init();
