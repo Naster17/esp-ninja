@@ -17,11 +17,43 @@ bool ui_init()
 
     return true;
 }
+// int _default_renderer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget);
+int _default_animator(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget);
+int _default_renderer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
+{
+    // screen_fill_rect(x, y, w, h, widget->style->frame_color);
+    // screen_fill_rect(x, y, w - 2, h - 2, widget->style->bg_color);
+    serial_printf("1\n");
+    // double upper frame
+    // screen_draw_line(x, y, (x + w) - 1, y, widget->style->notch_color);
+    // screen_draw_line(x, y + 1, (x + w) - 1, y + 1, widget->style->notch_color);
+    serial_printf("2\n");
+
+    // draw text
+    // screen_set_text_color(widget->style->font_color);
+    // screen_set_text_size(widget->style->font_size);
+    serial_printf("3\n");
+    // int16_t font_width = screen_get_text_width(widget->label);
+    // int16_t font_height = screen_get_font_height();
+    serial_printf("4\n");
+
+    // if (font_width > w && widget->style->font_type == font_adaptive)
+    // {
+    //     screen_printfc(x, y, "%s", widget->label);
+    // }
+    // else
+    // {
+    // int16_t border = (w - font_width) / 2;
+    // int16_t border_top = (h - font_height) / 2;
+    // screen_printfc(x + border, y + border_top, "%s", widget->label);
+    serial_printf("5\n");
+    // }
+}
 
 void ui_draw(grid_t *grid)
 {
     if (grid->wt_head == NULL)
-        return; // maybe fix this shity do while
+        return;
 
     widget_t *widget = grid->wt_head;
     do
@@ -37,10 +69,13 @@ void ui_draw(grid_t *grid)
         if (widget->col == 0)
             x = 0;
 
-        widget->renderer(x, y, w, h, widget);
+        serial_printf("%s\n", widget->label);
+        // _default_renderer(0, 0, 0, 0, NULL);
 
     } while ((widget = widget->next) != NULL);
 }
+
+void ui_event_executor(widget_t *widget) {}
 
 void ui_touch_handler(grid_t *grid, touch_state_t *st)
 {
@@ -61,8 +96,7 @@ void ui_touch_handler(grid_t *grid, touch_state_t *st)
         if (st->point.x < (x + w) && st->point.x > x && st->point.y < (y + h) && st->point.y > y)
         {
             serial_print(widget->label);
-            widget->animator(x, y, w, h, widget);
-
+            _default_animator(x, y, w, h, widget);
         }
 
     } while ((widget = widget->next) != NULL);

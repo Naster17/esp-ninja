@@ -45,6 +45,7 @@ typedef struct widget_style_t
     int font_color;
     int font_size;
     int font_type; // fixed, adaptive
+    int anim_color;
 } widget_style_t;
 
 enum widget_type

@@ -1,32 +1,64 @@
 #include <drivers/screen.h>
+#include <drivers/serial.h>
 #include <lib/ui.h>
 
-int _default_renderer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
+// int _default_renderer(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
+// {
+//     // screen_fill_rect(x, y, w, h, widget->style->frame_color);
+//     // screen_fill_rect(x, y, w - 2, h - 2, widget->style->bg_color);
+//     serial_printf("1\n");
+//     // double upper frame
+//     // screen_draw_line(x, y, (x + w) - 1, y, widget->style->notch_color);
+//     // screen_draw_line(x, y + 1, (x + w) - 1, y + 1, widget->style->notch_color);
+//     serial_printf("2\n");
+//
+//     // draw text
+//     // screen_set_text_color(widget->style->font_color);
+//     // screen_set_text_size(widget->style->font_size);
+//     serial_printf("3\n");
+//     // int16_t font_width = screen_get_text_width(widget->label);
+//     // int16_t font_height = screen_get_font_height();
+//     serial_printf("4\n");
+//
+//     // if (font_width > w && widget->style->font_type == font_adaptive)
+//     // {
+//     //     screen_printfc(x, y, "%s", widget->label);
+//     // }
+//     // else
+//     // {
+//     // int16_t border = (w - font_width) / 2;
+//     // int16_t border_top = (h - font_height) / 2;
+//     // screen_printfc(x + border, y + border_top, "%s", widget->label);
+//     serial_printf("5\n");
+//     // }
+// }
+
+int _default_animator(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget)
 {
     screen_fill_rect(x, y, w, h, widget->style->frame_color);
-    screen_fill_rect(x, y, w - 2, h - 2, widget->style->bg_color);
+    screen_fill_rect(x, y, w - 2, h - 2, COLOR_GREY_2);
     // double upper frame
-    screen_draw_line(x, y, (x + w) - 1, y, widget->style->notch_color);
-    screen_draw_line(x, y + 1, (x + w) - 1, y + 1, widget->style->notch_color);
+    screen_draw_line(x, y, (x + w) - 1, y, COLOR_GREY_3);
+    screen_draw_line(x, y + 1, (x + w) - 1, y + 1, COLOR_GREY_3);
     // draw text
-    screen_set_text_color(widget->style->font_color);
+    screen_set_text_color(COLOR_GREY_4);
     screen_set_text_size(widget->style->font_size);
     int16_t font_width = screen_get_text_width(widget->label);
     int16_t font_height = screen_get_font_height();
 
-    if (font_width > w && widget->style->font_type == font_adaptive)
-    {
-        screen_printfc(x, y, "%s", widget->label);
-    }
-    else
-    {
-        int16_t border = (w - font_width) / 2;
-        int16_t border_top = (h - font_height) / 2;
-        screen_printfc(x + border, y + border_top, "%s", widget->label);
-    }
+    // if (font_width > w && widget->style->font_type == font_adaptive)
+    // {
+    //     // add adaptive font reduce
+    //     screen_printfc(x, y, "%s", widget->label);
+    // }
+    // else
+    // {
+    int16_t border = (w - font_width) / 2;
+    int16_t border_top = (h - font_height) / 2;
+    screen_printfc(x + border, y + border_top, "%s", widget->label);
+    // }
+    // add Label sortner Like Blue...
 }
-
-int _default_animator(int32_t x, int32_t y, int32_t w, int32_t h, widget_t *widget) {}
 
 widget_t *ui_button_new(const char *label)
 {
@@ -44,8 +76,8 @@ widget_t *ui_button_new(const char *label)
     style->font_size = 2;
     widget->style = style;
 
-    widget->renderer = _default_renderer;
-    widget->animator = _default_animator;
+    // widget->renderer = _default_renderer;
+    // widget->animator = _default_animator;
 
     widget->events = NULL;
 
