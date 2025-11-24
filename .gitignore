@@ -1,10 +1,72 @@
+# My
+compile_commands.json
+.config*
 .cache/
-.pio/
+.cache/*
+.pio
+.cache
+.clang_complete
+.gcc-flags.json
 .ccls
-compile_commands.json*
-.clang*
-.git
+compile_commands.json
+build/*
+build
 
+# ---> C
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# ---> C++
 # Prerequisites
 *.d
 
@@ -37,3 +99,11 @@ compile_commands.json*
 *.exe
 *.out
 *.app
+
+# ---> Python
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# VsCode
+ .vscode*
+ .vscode/*
